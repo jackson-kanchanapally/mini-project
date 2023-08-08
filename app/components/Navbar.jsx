@@ -21,23 +21,23 @@ export default function Navbar() {
         <Img src="logo.png" width="130px" />
       </Box>
       <Spacer />
-      <HStack spacing="30px" pr="60px" fontSize="14px">
+      <HStack spacing="30px" pr="60px" fontSize="15px">
         <Link href="#">
-          <Text color="#FA643F" fontWeight="bold">
+          <Text color="#FA643F" fontWeight="bold" >
             Resume Builder
           </Text>
         </Link>
         <Link href="#">
-          <Text fontWeight="bold">Take Test</Text>
+          <Text fontWeight="medium" _hover={{color:'#FA643F'}}>Take Test</Text>
         </Link>
         <Link href="/contest">
-          <Text fontWeight="bold">Coding Contests</Text>
+          <Text fontWeight="medium" _hover={{color:'#FA643F'}}>Coding Contests</Text>
         </Link>
         <Link href="#">
-          <Text fontWeight="bold">College Finder</Text>
+          <Text fontWeight="medium" _hover={{color:'#FA643F'}}>College Finder</Text>
         </Link>
-        <Link href="#">
-          <Text fontWeight="bold">Road Maps</Text>
+        <Link href="/roadmaps">
+          <Text fontWeight="medium" _hover={{color:'#FA643F'}}>Road Maps</Text>
         </Link>
       </HStack>
     </Flex>

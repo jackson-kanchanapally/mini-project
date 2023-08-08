@@ -1,7 +1,8 @@
 'use client'
-import { Comfortaa  } from 'next/font/google'
+//import { Comfortaa  } from 'next/font/google'
+import {Poppins  } from 'next/font/google'
 
-const inter = Comfortaa ({ subsets: ['latin'] ,weight: '400',})
+const inter = Poppins  ({ subsets: ['latin'] ,weight: '400',})
 import { CacheProvider } from "@chakra-ui/next-js"
 import { ChakraProvider,extendTheme } from "@chakra-ui/react"
 import Navbar from './components/Navbar'
