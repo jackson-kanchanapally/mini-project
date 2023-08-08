@@ -23,7 +23,7 @@ export default function Navbar() {
       <Spacer />
       <HStack spacing="30px" pr="60px" fontSize="15px">
         <Link href="#">
-          <Text color="#FA643F" fontWeight="bold" >
+          <Text >
             Resume Builder
           </Text>
         </Link>
@@ -38,6 +38,9 @@ export default function Navbar() {
         </Link>
         <Link href="/roadmaps">
           <Text fontWeight="medium" _hover={{color:'#FA643F'}}>Road Maps</Text>
+        </Link>
+        <Link href="#">
+          <Text fontWeight="medium" _hover={{color:'#FA643F'}}>Log Out</Text>
         </Link>
       </HStack>
     </Flex>
