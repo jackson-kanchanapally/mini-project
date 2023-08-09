@@ -118,6 +118,7 @@ export default function Roadmap({ cou }) {
         },
       ],
     },
+    
   };
   const [complete, setComplete] = React.useState([]);
   const [courseLen, setCourseLen] = React.useState(0);
@@ -158,7 +159,8 @@ export default function Roadmap({ cou }) {
                           <Checkbox
                             value={course}
                             isChecked={complete.includes(course)}
-                            colorScheme="red"
+                            
+                            fontSize='1px'
                             onChange={() => handleCheckboxChange(index, course)}
                             isDisabled={index !== activeIndex}
                           >
