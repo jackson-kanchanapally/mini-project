@@ -27,7 +27,7 @@ export default function Navbar() {
             Resume Builder
           </Text>
         </Link>
-        <Link href="#">
+        <Link href="/skilltests">
           <Text fontWeight="medium" _hover={{color:'#FA643F'}}>Take Test</Text>
         </Link>
         <Link href="/contest">
