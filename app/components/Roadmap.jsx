@@ -12,6 +12,7 @@ import {
   Checkbox,
   Button,
 } from "@chakra-ui/react";
+import { useRouter } from 'next/navigation'
 import React from "react";
 import { MdOutlineDone } from "react-icons/md";
 export default function Roadmap({ cou }) {
@@ -122,7 +123,10 @@ export default function Roadmap({ cou }) {
   };
   const [complete, setComplete] = React.useState([]);
   const [courseLen, setCourseLen] = React.useState(0);
-  
+  const router = useRouter();
+  const handleClick = () => {
+    router.push('/skilltests');
+  };
   const [activeIndex, setActiveIndex] = React.useState(0);
   React.useEffect(() => {
     // Update the course length whenever the category changes
@@ -180,6 +184,7 @@ export default function Roadmap({ cou }) {
           bg="#FA643F"
           w="full"
           _hover={{ bg: "#FF5757" }}
+          onClick={handleClick}
         >
           Take Test
         </Button>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from 'next/navigation'
 import {
   Box,
   Button,
@@ -1036,80 +1037,91 @@ export default function SkillPerform({ cou }) {
       ],
     },
   };
-  const [selectedCorrectAnswers, setSelectedCorrectAnswers] = useState(
-    Array(10).fill(null)
-  );
-
+  const [selectedAnswers, setSelectedAnswers] = useState(Array(10).fill(null))
+  const [result, setResult] = useState(null);
   const handleValueChange = (questionIndex, selectedValue) => {
-    const correctAnswer = data.qu.categories
-      .find((category) => category.name === cou)
-      .questions[questionIndex].answer;
-
-    setSelectedCorrectAnswers((prevAnswers) => {
+    setSelectedAnswers((prevAnswers) => {
       const updatedAnswers = [...prevAnswers];
-      updatedAnswers[questionIndex] =
-        selectedValue === correctAnswer ? correctAnswer : null;
+      updatedAnswers[questionIndex] = selectedValue;
       return updatedAnswers;
     });
   };
 
   const handleSubmit = () => {
-    if (selectedCorrectAnswers.every((answer) => answer !== null)) {
-      const result = (selectedCorrectAnswers.filter(Boolean).length / 10) * 100;
-      console.log("Result:", result);
-    } else {
-      console.log("Please answer all questions.");
-    }
-  };
+    const correctAnswers = data.qu.categories
+      .find((category) => category.name === cou)
+      .questions.map((ques) => ques.answer);
 
+    const score = selectedAnswers.reduce(
+      (acc, selectedAnswer, index) =>
+        acc + (selectedAnswer === correctAnswers[index] ? 1 : 0),
+      0
+    );
+
+    setResult((score / correctAnswers.length) * 100);
+  };
+  const router = useRouter();
+  const handleClick = () => {
+    router.push('/skilltests/result');
+  };
   return (
     <Flex justify="center" align="center">
-      <Stack direction="column" w="800px">
-        {data.qu.categories.map(
-          (category) =>
-            category.name === cou && (
-              <Stack
-                key={category.name}
-                direction="column"
-                m="auto"
-                bg="gray.300"
-                p="20px"
-                borderRadius="10px"
-              >
-                <Text fontWeight="bold">{category.name}</Text>
-                {category.questions.map((ques, index) => (
-                  <Stack key={index} bg="white" p="20px" borderRadius="10px">
-                    <Text as="b">
-                      {index + 1}. {ques.question}
-                    </Text>
-                    <RadioGroup
-                      onChange={(selectedValue) =>
-                        handleValueChange(index, selectedValue)
-                      }
-                    >
-                      <Stack>
-                        {ques.options.map((q, index) => (
-                          <Radio key={index} value={q} colorScheme="#FA643F">
-                            {index + 1}. {q}
-                          </Radio>
-                        ))}
-                      </Stack>
-                    </RadioGroup>
-                  </Stack>
-                ))}
-              </Stack>
-            )
-        )}
-        <Button
-          bg="#FA643F"
-          _hover={{ bg: "#FF5757" }}
-          onClick={handleSubmit}
-          mt="20px"
-        >
-          Submit
-        </Button>
-        <Text>{''}</Text>
-      </Stack>
-    </Flex>
+    <Stack direction="column" w="800px">
+      {data.qu.categories.map(
+        (category) =>
+          category.name === cou && (
+            <Stack
+              key={category.name}
+              direction="column"
+              m="auto"
+              bg="gray.300"
+              p="20px"
+              borderRadius="10px"
+            >
+              <Text fontWeight="bold">{category.name}</Text>
+              {category.questions.map((ques, index) => (
+                <Stack key={index} bg="white" p="20px" borderRadius="10px">
+                  <Text as="b">
+                    {index + 1}. {ques.question}
+                  </Text>
+                  <RadioGroup
+                    value={selectedAnswers[index]}
+                    onChange={(selectedValue) =>
+                      handleValueChange(index, selectedValue)
+                    }
+                  >
+                    <Stack>
+                      {ques.options.map((q, optionIndex) => (
+                        <Radio
+                          key={optionIndex}
+                          value={q}
+                          colorScheme="#FA643F"
+                        >
+                          {optionIndex + 1}. {q}
+                        </Radio>
+                      ))}
+                    </Stack>
+                  </RadioGroup>
+                </Stack>
+              ))}
+            </Stack>
+          )
+      )}
+      <Button
+        bg="#FA643F"
+        _hover={{ bg: "#FF5757" }}
+        mt="20px"
+        mb="30px"
+        onClick={handleClick}
+      >
+        Submit
+      </Button>
+      {/* {result !== null && (
+        <Text mt="20px">
+          Your score: {result.toFixed(2)}%
+        </Text>
+      )} */}
+    </Stack>
+  </Flex>
   );
 }

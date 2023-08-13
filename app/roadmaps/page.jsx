@@ -3,6 +3,7 @@ import React from "react";
 import Roadmap from "../components/Roadmap";
 import { Button, Flex, Box, Progress } from "@chakra-ui/react";
 
+export const CouContext=React.createContext()
 export default function RoadmapPage() {
   const [course, setCourse] = React.useState();
   console.log(course);
@@ -84,7 +85,9 @@ export default function RoadmapPage() {
         </Box>
       </Flex>
       <Flex justifyContent="center" alignItems="center" m="auto">
+        <CouContext.Provider value={"Full Stack Development"}>
         {course && <Roadmap cou={course} />}
+        </CouContext.Provider>
       </Flex>
     </Flex>
   );

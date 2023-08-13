@@ -3,12 +3,12 @@ import React from "react";
 import Roadmap from "../components/Roadmap";
 import { Button, Flex, Box, Stack } from "@chakra-ui/react";
 import SkillPerform from "../components/SkillPerform";
-
+import { CouContext } from "../roadmaps/page";
 export default function RoadmapPage() {
   const [course, setCourse] = React.useState();
-  console.log(course);
+const val=React.useContext(CouContext)
   return (
-    <Flex color="black" alignItems="stretch" >
+    <Flex color="black" alignItems="stretch">
       <Stack h="91vh" bg="white" width="260px" overflowY="auto" flexShrink="0">
         <Box
           _hover={{ color: "#FA643F" }}
@@ -91,7 +91,10 @@ export default function RoadmapPage() {
         flex="1"
         overflowY="auto"
       >
-        {course && <SkillPerform cou={course} />}
+      
+          {/* {value=>course && <SkillPerform cou={value} />} */}
+          {console.log(val)}
+      
       </Flex>
     </Flex>
   );

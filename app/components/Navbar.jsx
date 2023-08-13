@@ -1,3 +1,4 @@
+
 import {
   Box,
   Flex,
@@ -23,7 +24,7 @@ export default function Navbar() {
       <Spacer />
       <HStack spacing="30px" pr="60px" fontSize="15px">
         <Link href="#">
-          <Text >
+          <Text _hover={{color:'#FA643F'}}>
             Resume Builder
           </Text>
         </Link>
@@ -33,7 +34,7 @@ export default function Navbar() {
         <Link href="/contest">
           <Text fontWeight="medium" _hover={{color:'#FA643F'}}>Coding Contests</Text>
         </Link>
-        <Link href="#">
+        <Link href="/college">
           <Text fontWeight="medium" _hover={{color:'#FA643F'}}>College Finder</Text>
         </Link>
         <Link href="/roadmaps">
