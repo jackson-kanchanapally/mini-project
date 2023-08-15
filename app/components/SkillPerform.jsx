@@ -9,6 +9,16 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import {db} from '../firebaseConfig'
+import { collection,
+  addDoc,
+  getDoc,
+  querySnapshot,
+  query,
+  onSnapshot,
+  deleteDoc,
+  doc,} from 'firebase/firestore'
+
 export default function SkillPerform({ cou }) {
   const data = {
     qu: {
@@ -1037,8 +1047,9 @@ export default function SkillPerform({ cou }) {
       ],
     },
   };
-  const [selectedAnswers, setSelectedAnswers] = useState(Array(10).fill(null))
-  const [result, setResult] = useState(null);
+  const {user}=UserAuth()
+  const [selectedAnswers, setSelectedAnswers] = useState(Array(10).fill(null));
+  const [result, setResult] = useState(0);
   const handleValueChange = (questionIndex, selectedValue) => {
     setSelectedAnswers((prevAnswers) => {
       const updatedAnswers = [...prevAnswers];
@@ -1047,7 +1058,8 @@ export default function SkillPerform({ cou }) {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit =async (e) => {
+    e.preventDefault()
     const correctAnswers = data.qu.categories
       .find((category) => category.name === cou)
       .questions.map((ques) => ques.answer);
@@ -1059,69 +1071,66 @@ export default function SkillPerform({ cou }) {
     );
 
     setResult((score / correctAnswers.length) * 100);
-  };
-  const router = useRouter();
-  const handleClick = () => {
-    router.push('/skilltests/result');
+    await addDoc(collection(db,'result'),{
+      user:user.email,
+      result:result
+    })
+
   };
   return (
-    <Flex justify="center" align="center">
-    <Stack direction="column" w="800px">
-      {data.qu.categories.map(
-        (category) =>
-          category.name === cou && (
-            <Stack
-              key={category.name}
-              direction="column"
-              m="auto"
-              bg="gray.300"
-              p="20px"
-              borderRadius="10px"
-            >
-              <Text fontWeight="bold">{category.name}</Text>
-              {category.questions.map((ques, index) => (
-                <Stack key={index} bg="white" p="20px" borderRadius="10px">
-                  <Text as="b">
-                    {index + 1}. {ques.question}
-                  </Text>
-                  <RadioGroup
-                    value={selectedAnswers[index]}
-                    onChange={(selectedValue) =>
-                      handleValueChange(index, selectedValue)
-                    }
-                  >
-                    <Stack>
-                      {ques.options.map((q, optionIndex) => (
-                        <Radio
-                          key={optionIndex}
-                          value={q}
-                          colorScheme="#FA643F"
-                        >
-                          {optionIndex + 1}. {q}
-                        </Radio>
-                      ))}
-                    </Stack>
-                  </RadioGroup>
-                </Stack>
-              ))}
-            </Stack>
-          )
-      )}
-      <Button
-        bg="#FA643F"
-        _hover={{ bg: "#FF5757" }}
-        mt="20px"
-        mb="30px"
-        onClick={handleClick}
-      >
-        Submit
-      </Button>
-      {/* {result !== null && (
-        <Text mt="20px">
-          Your score: {result.toFixed(2)}%
-        </Text>
-      )} */}
-    </Stack>
-  </Flex>
+    <Flex justify="center" align="center" w='100%'>
+      <Stack direction="column" w="800px">
+        {data.qu.categories.map(
+          (category) =>
+            category.name === cou && (
+              <Stack
+                key={category.name}
+                direction="column"
+                m="auto"
+                bg="gray.300"
+                p="20px"
+                borderRadius="10px"
+              >
+                <Text fontWeight="bold">{category.name}</Text>
+                {category.questions.map((ques, index) => (
+                  <Stack key={index} bg="white" p="20px" borderRadius="10px">
+                    <Text as="b">
+                      {index + 1}. {ques.question}
+                    </Text>
+                    <RadioGroup
+                      value={selectedAnswers[index]}
+                      onChange={(selectedValue) =>
+                        handleValueChange(index, selectedValue)
+                      }
+                    >
+                      <Stack>
+                        {ques.options.map((q, optionIndex) => (
+                          <Radio
+                            key={optionIndex}
+                            value={q}
+                            colorScheme="teal" // Use a valid colorScheme
+                          >
+                            {optionIndex + 1}. {q}
+                          </Radio>
+                        ))}
+                      </Stack>
+                    </RadioGroup>
+                  </Stack>
+                ))}
+              </Stack>
+            )
+        )}
+        <Button
+            bg="#FA643F"
+            _hover={{ bg: "#FF5757" }}variant
+          mt="20px"
+          mb="30px"
+          onClick={handleSubmit}
+        >
+          Submit
+        </Button>
+       
+      </Stack>
+    </Flex>
   );
 }

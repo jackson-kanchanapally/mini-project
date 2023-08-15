@@ -1,21 +1,24 @@
 "use client";
 import React from "react";
 import Roadmap from "../components/Roadmap";
-import { Button, Flex, Box, Progress } from "@chakra-ui/react";
+import { Flex, Box, chakra, Image, Center } from "@chakra-ui/react";
 
-export const CouContext=React.createContext()
+
 export default function RoadmapPage() {
   const [course, setCourse] = React.useState();
-  console.log(course);
+
+  const Img = chakra(Image, {
+    shouldForwardProp: (prop) =>
+      ["width", "height", "src", "alt"].includes(prop),
+  });
   return (
-    <Flex color="black" alignItems="center">
+    <Flex color="black" alignItems="center" >
       <Flex direction="column" h="91vh" bg="white">
         <Box
           _hover={{ color: "#FA643F" }}
           p="25px"
           color="gray.700"
           onClick={() => setCourse("Frontend Development")}
-          
         >
           Frontend Development
         </Box>
@@ -84,11 +87,17 @@ export default function RoadmapPage() {
           Cloud Computing
         </Box>
       </Flex>
-      <Flex justifyContent="center" alignItems="center" m="auto">
-        <CouContext.Provider value={"Full Stack Development"}>
-        {course && <Roadmap cou={course} />}
-        </CouContext.Provider>
+      <Flex justifyContent="center" alignItems="center" m="auto" >
+        
+          {course ? (
+            <Roadmap cou={course} />
+          ) : (
+           
+             <Img src="roadmapbg.png" w="40%" />
+           
+          )}
+    
       </Flex>
     </Flex>
   );
-}
+          }

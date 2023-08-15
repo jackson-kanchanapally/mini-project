@@ -12,11 +12,37 @@ import {
 } from "@chakra-ui/react";
 import { Formik, Field, Form } from "formik";
 import React from "react";
-import Formi from "../components/Form";
+import {auth} from '../firebaseConfig'
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import Link from "next/link";
+import { UserAuth } from "../context/AuthContext";
+import Formi from "../components/Form";
+import { useRouter } from 'next/navigation'
+
 export default function Login() {
+  const router = useRouter();
+  const [loginEr,setLoginEr]=React.useState('')
   const onSubmit = async (val, { resetForm }) => {
-    alert(val.gender);
+    createUserWithEmailAndPassword(auth,
+      val.email,
+      val.firstname,
+      val.lastname,
+      val.mobnum,
+      val.occupation,
+      val.password
+      )
+      .then(()=>{
+        router.push('/')
+      })
+      .catch(err=>{
+        if(err&&err.code==='(auth/email-already-in-use)')
+        {
+          setLoginEr('Email Already Exists')
+        }
+        else{
+          setLoginEr(`Error ${err}`);
+          };
+      })
   };
   const Img = chakra(Image, {
     shouldForwardProp: (prop) =>
@@ -29,7 +55,7 @@ export default function Login() {
           initialValues={{
             email: "",
             password: "",
-            gender:"",
+            // gender:"",
             occupation:"",
             mobnum:"",
             firstname:"",
@@ -39,6 +65,7 @@ export default function Login() {
           // validationSchema={vaildateSchema}
           onSubmit={onSubmit}
         >
+          
           {(props) => (
             <Form>
               <VStack spacing={4} align="flex-start">
@@ -59,32 +86,33 @@ export default function Login() {
                     variant="filled"
                   />
                 </HStack>
+             
+                <HStack w="100%">
                 <HStack w="100%">
               
               
-                  <Select placeholder="Gender" borderColor='gray.600' color='gray.600' id='gender' name='gender'>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    
-                  </Select>
+              {/* <Select placeholder="Gender" borderColor='gray.600' color='gray.600' id='gender' name='gender'>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
                 
-                  <Select placeholder="Occupation" borderColor='gray.600' color='gray.600' name='occupation'>
-                    <option value="student">Student</option>
-                    <option value="employee">Employee</option>
-                    
-                    <option value="other">Other</option>
-                    
-                  </Select>
-                 
-                </HStack>
-                <HStack w="100%">
-                  <Formi
-                    label="Email Address"
-                    id="email"
-                    name="email"
-                    type="email"
-                    variant="filled"
-                  />
+              </Select> */}
+            
+              {/* <Select placeholder="Occupation" borderColor='gray.600' color='gray.600' name='occupation'>
+                <option value="student">Student</option>
+                <option value="employee">Employee</option>
+                
+                <option value="other">Other</option>
+                
+              </Select> */}
+               <Formi
+                label="Occupation"
+                id="occupation"
+                name="occupation"
+                type="text"
+                variant="filled"
+              />
+            </HStack>
+                
 
                   <Formi
                     label="Mobile Number"
@@ -95,6 +123,13 @@ export default function Login() {
                   />
                  
                 </HStack>
+                <Formi
+                    label="Email Address"
+                    id="email"
+                    name="email"
+                    type="email"
+                    variant="filled"
+                  />
                 <Formi
                     label="Password"
                     id="password"
@@ -108,6 +143,7 @@ export default function Login() {
                 <Link href="/login">
                   <Text fontSize="13px">Have Account ? Login</Text>
                 </Link>
+                {loginEr===''?'':<Text m='auto' color='red' fontSize='15px'>&#9888; {loginEr}</Text>}
               </VStack>
             </Form>
           )}

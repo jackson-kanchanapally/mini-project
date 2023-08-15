@@ -1,15 +1,21 @@
 "use client";
 import React from "react";
 import Roadmap from "../components/Roadmap";
-import { Button, Flex, Box, Stack } from "@chakra-ui/react";
+import {  Flex, Box, Stack,chakra,Image, Text,  } from "@chakra-ui/react";
 import SkillPerform from "../components/SkillPerform";
-import { CouContext } from "../roadmaps/page";
+
+
 export default function RoadmapPage() {
-  const [course, setCourse] = React.useState();
-const val=React.useContext(CouContext)
+
+  const [course, setCourse] = React.useState('');
+  const Img = chakra(Image, {
+    shouldForwardProp: (prop) =>
+      ["width", "height", "src", "alt"].includes(prop),
+  });
+
   return (
-    <Flex color="black" alignItems="stretch">
-      <Stack h="91vh" bg="white" width="260px" overflowY="auto" flexShrink="0">
+    <Flex color="black" alignItems="stretch" width='100%'>
+      <Stack h={course===''?"91vh":'auto'} bg="white" width="260px" overflowY="auto" flexShrink="0">
         <Box
           _hover={{ color: "#FA643F" }}
           p="20px"
@@ -92,8 +98,10 @@ const val=React.useContext(CouContext)
         overflowY="auto"
       >
       
-          {/* {value=>course && <SkillPerform cou={value} />} */}
-          {console.log(val)}
+          {course ? <SkillPerform cou={course} />:
+        <Img src='testbg.png' w='40%'/>
+          }
+          
       
       </Flex>
     </Flex>
