@@ -1047,7 +1047,7 @@ export default function SkillPerform({ cou }) {
       ],
     },
   };
-  const {user}=UserAuth()
+  //const {user}=UserAuth()
   const [selectedAnswers, setSelectedAnswers] = useState(Array(10).fill(null));
   const [result, setResult] = useState(0);
   const handleValueChange = (questionIndex, selectedValue) => {
@@ -1072,7 +1072,7 @@ export default function SkillPerform({ cou }) {
 
     setResult((score / correctAnswers.length) * 100);
     await addDoc(collection(db,'result'),{
-      user:user.email,
+      //user:user.email,
       result:result
     })
 
