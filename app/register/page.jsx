@@ -12,38 +12,50 @@ import {
 } from "@chakra-ui/react";
 import { Formik, Field, Form } from "formik";
 import React from "react";
-import {auth} from '../firebaseConfig'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from "../firebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { UserAuth } from "../context/AuthContext";
 import Formi from "../components/Form";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
+import * as Yup from "yup";
 
 export default function Login() {
   const router = useRouter();
-  const [loginEr,setLoginEr]=React.useState('')
+  const [loginEr, setLoginEr] = React.useState("");
   const onSubmit = async (val, { resetForm }) => {
-    createUserWithEmailAndPassword(auth,
+    createUserWithEmailAndPassword(
+      auth,
       val.email,
       val.firstname,
       val.lastname,
       val.mobnum,
       val.occupation,
       val.password
-      )
-      .then(()=>{
-        router.push('/')
+    )
+      .then(() => {
+        router.push("/");
+        resetForm()
       })
-      .catch(err=>{
-        if(err&&err.code==='(auth/email-already-in-use)')
-        {
-          setLoginEr('Email Already Exists')
-        }
-        else{
+      .catch((err) => {
+        if (err && err.code === "(auth/email-already-in-use)") {
+          setLoginEr("Email Already Exists");
+        } else {
           setLoginEr(`Error ${err}`);
-          };
-      })
+        }
+      });
   };
+
+  const vaildateSchema = Yup.object({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    firstname: Yup.string().required("Firstname is Required"),
+    lastname: Yup.string().required("Lastname is Required"),
+    mobnum: Yup.number().required("Mobile number is Required"),
+    occupation: Yup.string().required("Occupation is Required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+  });
   const Img = chakra(Image, {
     shouldForwardProp: (prop) =>
       ["width", "height", "src", "alt"].includes(prop),
@@ -56,16 +68,14 @@ export default function Login() {
             email: "",
             password: "",
             // gender:"",
-            occupation:"",
-            mobnum:"",
-            firstname:"",
-            lastname:"",
-
+            occupation: "",
+            mobnum: "",
+            firstname: "",
+            lastname: "",
           }}
-          // validationSchema={vaildateSchema}
+          validationSchema={vaildateSchema}
           onSubmit={onSubmit}
         >
-          
           {(props) => (
             <Form>
               <VStack spacing={4} align="flex-start">
@@ -86,33 +96,17 @@ export default function Login() {
                     variant="filled"
                   />
                 </HStack>
-             
+
                 <HStack w="100%">
-                <HStack w="100%">
-              
-              
-              {/* <Select placeholder="Gender" borderColor='gray.600' color='gray.600' id='gender' name='gender'>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                
-              </Select> */}
-            
-              {/* <Select placeholder="Occupation" borderColor='gray.600' color='gray.600' name='occupation'>
-                <option value="student">Student</option>
-                <option value="employee">Employee</option>
-                
-                <option value="other">Other</option>
-                
-              </Select> */}
-               <Formi
-                label="Occupation"
-                id="occupation"
-                name="occupation"
-                type="text"
-                variant="filled"
-              />
-            </HStack>
-                
+                  <HStack w="100%">
+                    <Formi
+                      label="Occupation"
+                      id="occupation"
+                      name="occupation"
+                      type="text"
+                      variant="filled"
+                    />
+                  </HStack>
 
                   <Formi
                     label="Mobile Number"
@@ -121,29 +115,39 @@ export default function Login() {
                     type="tel"
                     variant="filled"
                   />
-                 
                 </HStack>
                 <Formi
-                    label="Email Address"
-                    id="email"
-                    name="email"
-                    type="email"
-                    variant="filled"
-                  />
+                  label="Email Address"
+                  id="email"
+                  name="email"
+                  type="email"
+                  variant="filled"
+                />
                 <Formi
-                    label="Password"
-                    id="password"
-                    name="password"
-                    type="password"
-                    variant="filled"
-                  />
-                <Button type="submit"  bg="#FA643F" w="full" _hover={{ bg: "#FF5757" }}>
-               Create Account
-              </Button>
+                  label="Password"
+                  id="password"
+                  name="password"
+                  type="password"
+                  variant="filled"
+                />
+                <Button
+                  type="submit"
+                  bg="#FA643F"
+                  w="full"
+                  _hover={{ bg: "#FF5757" }}
+                >
+                  Create Account
+                </Button>
                 <Link href="/login">
                   <Text fontSize="13px">Have Account ? Login</Text>
                 </Link>
-                {loginEr===''?'':<Text m='auto' color='red' fontSize='15px'>&#9888; {loginEr}</Text>}
+                {loginEr === "" ? (
+                  ""
+                ) : (
+                  <Text m="auto" color="red" fontSize="15px">
+                    &#9888; {loginEr}
+                  </Text>
+                )}
               </VStack>
             </Form>
           )}

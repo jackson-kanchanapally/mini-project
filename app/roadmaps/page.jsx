@@ -1,9 +1,7 @@
 "use client";
 import React from "react";
 import Roadmap from "../components/Roadmap";
-import { Flex, Box, chakra, Image, Center } from "@chakra-ui/react";
-
-
+import { Flex, Box, chakra, Image, Text } from "@chakra-ui/react";
 export default function RoadmapPage() {
   const [course, setCourse] = React.useState();
 
@@ -11,8 +9,10 @@ export default function RoadmapPage() {
     shouldForwardProp: (prop) =>
       ["width", "height", "src", "alt"].includes(prop),
   });
+
   return (
     <Flex color="black" alignItems="center" >
+        
       <Flex direction="column" h="91vh" bg="white">
         <Box
           _hover={{ color: "#FA643F" }}

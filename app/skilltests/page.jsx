@@ -12,7 +12,7 @@ export default function RoadmapPage() {
     shouldForwardProp: (prop) =>
       ["width", "height", "src", "alt"].includes(prop),
   });
-
+  
   return (
     <Flex color="black" alignItems="stretch" width='100%'>
       <Stack h={course===''?"91vh":'auto'} bg="white" width="260px" overflowY="auto" flexShrink="0">

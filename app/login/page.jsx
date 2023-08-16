@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, Flex, Text, VStack, chakra, Image} from "@chakra-ui/react";
+import { Box, Button, Flex, Text, VStack, chakra,Image} from "@chakra-ui/react";
 import { Formik, Field,Form } from "formik";
 import React,{useState} from 'react'
 // import Formi from "../../components/Form";
@@ -10,6 +10,7 @@ import {auth} from '../firebaseConfig'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Formi from "@/app/components/Form";
 // import Image from 'next/image'
+import * as Yup from "yup";
 export default function Login() {
   const [loginEr,setLoginEr]=useState('')
   const router = useRouter();
@@ -59,7 +60,11 @@ export default function Login() {
       console.log(err)
     }
   }
-
+  const vaildateSchema = Yup.object({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string().required("Password is required"),
+   
+  });
   return (
     <Flex align="center" justify="center" h="90vh">
     <Box bg="gray.100" p={6} rounded="15px" w={'380px'}>
@@ -69,7 +74,7 @@ export default function Login() {
           password: "",
         }}
       
-        //  validationSchema={vaildateSchema}
+         validationSchema={vaildateSchema}
         onSubmit={onSubmit}
       >
         

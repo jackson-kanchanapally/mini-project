@@ -32,8 +32,8 @@ export default function RootLayout({ children }) {
         <CacheProvider>
           <ChakraProvider theme={theme}>
             <AuthContextProvider>
-              <ResumeContextProvider>
               <Navbar/>
+              <ResumeContextProvider>
               {children}
               </ResumeContextProvider>
             </AuthContextProvider>

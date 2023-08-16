@@ -9,17 +9,18 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import {db} from '../firebaseConfig'
-import { collection,
-  addDoc,
-  getDoc,
-  querySnapshot,
-  query,
-  onSnapshot,
-  deleteDoc,
-  doc,} from 'firebase/firestore'
+import { auth,db } from "@/app/firebaseConfig";
+
+import { doc, setDoc } from 'firebase/firestore';
+import { UserAuth } from "@/app/context/AuthContext";
 
 export default function SkillPerform({ cou }) {
+  const {user}=UserAuth()
+  let currentUser = null; 
+
+if (user) {
+  currentUser = user.uid; 
+}
   const data = {
     qu: {
       categories: [
@@ -1048,8 +1049,17 @@ export default function SkillPerform({ cou }) {
     },
   };
   //const {user}=UserAuth()
+  async function saveData(uid, userData) {
+    try {
+      const userDocRef = doc(db, "users", uid);
+      await setDoc(userDocRef, userData);
+      console.log("success doc");
+    } catch (err) {
+      console.log(err);
+    }
+  }
   const [selectedAnswers, setSelectedAnswers] = useState(Array(10).fill(null));
-  const [result, setResult] = useState(0);
+  const [result, setResult] = useState({course:'',result:''});
   const handleValueChange = (questionIndex, selectedValue) => {
     setSelectedAnswers((prevAnswers) => {
       const updatedAnswers = [...prevAnswers];
@@ -1070,11 +1080,15 @@ export default function SkillPerform({ cou }) {
       0
     );
 
-    setResult((score / correctAnswers.length) * 100);
-    await addDoc(collection(db,'result'),{
-      //user:user.email,
-      result:result
-    })
+    setResult(
+      {
+        course:cou,
+        result:(score / correctAnswers.length) * 100
+      }
+    );
+    if (currentUser) {
+      await saveData(currentUser, result); 
+    }
 
   };
   return (
