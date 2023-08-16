@@ -32,7 +32,7 @@ export default function Navbar() {
   return (
     <Flex w="100%" h="10%" bg="gray.100" alignItems="center" p="8px" pl="20px">
       <Box pl='30px'>
-        <Img src="/logo.png" width="130px" alt='CareerUp'/>
+        <Img src="/logo.png" width='130px' alt='CareerUp'/>
       </Box>
       <Spacer />
      {user?( <HStack spacing="30px" pr="60px" fontSize="15px">

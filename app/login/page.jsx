@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, Flex, Text, VStack, chakra, Center} from "@chakra-ui/react";
+import { Box, Button, Flex, Text, VStack, chakra, Image} from "@chakra-ui/react";
 import { Formik, Field,Form } from "formik";
 import React,{useState} from 'react'
 // import Formi from "../../components/Form";
@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 import {auth} from '../firebaseConfig'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Formi from "@/app/components/Form";
-import Image from 'next/image'
+// import Image from 'next/image'
 export default function Login() {
   const [loginEr,setLoginEr]=useState('')
   const router = useRouter();

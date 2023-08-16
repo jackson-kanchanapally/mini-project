@@ -50,6 +50,7 @@ export default function Manpage() {
     shouldForwardProp: (prop) =>
       ["width", "height", "src", "alt"].includes(prop),
   });
+  
   return (
     <Flex align="center" justify="center" h="100%" mt='5%'>
       <Box bg="gray.100" p={6} rounded="15px" w={"680px"}>
