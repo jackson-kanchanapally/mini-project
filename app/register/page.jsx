@@ -25,10 +25,6 @@ export default function Login() {
   const onSubmit = async (val, { resetForm }) => {
     createUserWithEmailAndPassword(auth,
       val.email,
-      val.firstname,
-      val.lastname,
-      val.mobnum,
-      val.occupation,
       val.password
       )
       .then(()=>{

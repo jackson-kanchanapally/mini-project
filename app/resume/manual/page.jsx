@@ -13,26 +13,38 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { Formik, Field, Form } from "formik";
-
+import { db } from "@/app/firebaseConfig";
+import { doc, setDoc} from 'firebase/firestore'
+import { UserAuth } from "@/app/context/AuthContext";
 import { ResumeCon } from "@/app/context/ResumeContext";
 import Formi from "@/app/components/Form";
 import * as Yup from "yup";
-
+import {useRouter} from 'next/navigation'
 
 export default function Manpage() {
     const [loginEr, setLoginEr] = React.useState("");
-    const {manRes,ManResSet}=ResumeCon()
-    const upd={
-        email:'jack',
-        skills:'asdf,asdf'
+    const { user } = UserAuth();
+    let currentUser = null;
+  
+    if (user) {
+      currentUser = user.uid;
     }
-    ManResSet(upd)
+    async function saveData(uid, userData) {
+      try {
+        const userDocRef = doc(db, "users", uid);
+        await setDoc(userDocRef, userData);
+        console.log("success doc");
+      } catch (err) {
+        console.log("Lov Error",err);
+      }
+    }
+    const router=useRouter()
   const vaildateSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Email is required"),
     firstname: Yup.string().required('name is required'),
     lastname: Yup.string().required('Last name is required'),
     grad: Yup.string().required('Graduation year is required'),
-    occupation: Yup.string().required('Occupation is required'),
+    obj: Yup.string().required('Objective is required'),
     mobnum: Yup.number().required('Mobile number is required'),
     schper12: Yup.number().required('School percentage (12th) is required'),
     school12: Yup.string().required('School (12th) is required'),
@@ -44,7 +56,28 @@ export default function Manpage() {
     
   });
   const onSubmit = async (val, { resetForm }) => {
-   
+    const upd = {
+      email: val.email,
+      firstname: val.firstname,
+      lastname: val.lastname,
+      grad: val.grad,
+      obj: val.obj,
+      mobnum: Number(val.mobnum),
+      schper12: Number(val.schper12),
+      school12: val.school12,
+      schper: Number(val.schper),
+      school: val.school,
+      address: val.address,
+      grad_per: Number(val.grad_per),
+      skills: val.skills,
+      exp: val.exp,
+    };
+    if (currentUser) {
+      await saveData(currentUser, upd); // Use 'await' to make sure the data is saved before resetting the form
+    }
+
+    resetForm();
+    router.push('/re1')
   };
   const Img = chakra(Image, {
     shouldForwardProp: (prop) =>
@@ -59,7 +92,7 @@ export default function Manpage() {
           initialValues={{
             email: "",
             grad:"",
-            occupation: "",
+            obj: "",
             mobnum: "",
             firstname: "",
             lastname: "",
@@ -99,9 +132,9 @@ export default function Manpage() {
                 <HStack w="100%">
                   <HStack w="100%">
                     <Formi
-                      label="Occupation"
-                      id="occupation"
-                      name="occupation"
+                      label="Objective"
+                      id="obj"
+                      name="obj"
                       type="text"
                       variant="filled"
                     />
