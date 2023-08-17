@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { Formik, Field, Form } from "formik";
 import React from "react";
-import { auth } from "../firebaseConfig";
+import { auth,db } from "../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { UserAuth } from "../context/AuthContext";
@@ -24,26 +24,51 @@ export default function Login() {
   const router = useRouter();
   const [loginEr, setLoginEr] = React.useState("");
   const onSubmit = async (val, { resetForm }) => {
-    createUserWithEmailAndPassword(
-      auth,
-      val.email,
-      val.firstname,
-      val.lastname,
-      val.mobnum,
-      val.occupation,
-      val.password
-    )
-      .then(() => {
-        router.push("/");
-        resetForm()
-      })
-      .catch((err) => {
-        if (err && err.code === "(auth/email-already-in-use)") {
-          setLoginEr("Email Already Exists");
-        } else {
-          setLoginEr(`Error ${err}`);
-        }
-      });
+    // createUserWithEmailAndPassword(
+    //   auth,
+    //   val.email,
+    //   // val.firstname,
+    //   // val.lastname,
+    //   // val.mobnum,
+    //   // val.occupation,
+    //   val.password
+    // )
+    
+    //   .then(() => {
+    //     router.push("/");
+    //     resetForm()
+    //   })
+    //   .catch((err) => {
+    //     if (err && err.code === "(auth/email-already-in-use)") {
+    //       setLoginEr("Email Already Exists");
+    //     } else {
+    //       setLoginEr(`Error ${err}`);
+    //     }
+    //   });
+    try {
+      // const userCredential = 
+      await createUserWithEmailAndPassword(auth, val.email, val.password);
+
+      // Additional user data to save in Firestore
+      // const additionalUserData = {
+      //   firstname: val.firstname,
+      //   lastname: val.lastname,
+      //   occupation: val.occupation,
+      //   mobnum: val.mobnum,
+      // };
+
+      // // Save the additional user data in Firestore
+      // await db.collection("users").doc(userCredential.user.uid).set(additionalUserData);
+
+      router.push("/");
+      resetForm();
+    } catch (err) {
+      if (err.code === "auth/email-already-in-use") {
+        setLoginEr("Email Already Exists");
+      } else {
+        setLoginEr(`Error ${err}`);
+      }
+    }
   };
 
   const vaildateSchema = Yup.object({
@@ -67,7 +92,6 @@ export default function Login() {
           initialValues={{
             email: "",
             password: "",
-            // gender:"",
             occupation: "",
             mobnum: "",
             firstname: "",

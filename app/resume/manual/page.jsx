@@ -13,7 +13,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { Formik, Field, Form } from "formik";
-
+import {useRouter} from 'next/navigation'
 import { ResumeCon } from "@/app/context/ResumeContext";
 import Formi from "@/app/components/Form";
 import * as Yup from "yup";
@@ -31,7 +31,7 @@ export default function Manpage() {
     firstname: Yup.string().required("name is required"),
     lastname: Yup.string().required("Last name is required"),
     grad: Yup.string().required("Graduation year is required"),
-    occupation: Yup.string().required("Occupation is required"),
+    obj: Yup.string().required("Career Objective is required"),
     mobnum: Yup.number().required("Mobile number is required"),
     schper12: Yup.number().required("School percentage (12th) is required"),
     school12: Yup.string().required("School (12th) is required"),
@@ -42,7 +42,7 @@ export default function Manpage() {
     skills: Yup.string().required("Skills are required"),
   });
 
-
+const router=useRouter()
 let currentUser = null; 
 
 if (user) {
@@ -64,7 +64,7 @@ async function saveData(uid, userData) {
       firstname: val.firstname,
       lastname: val.lastname,
       grad: val.grad,
-      occupation: val.occupation,
+      obj: val.obj,
       mobnum: Number(val.mobnum),
       schper12: Number(val.schper12),
       school12: val.school12,
@@ -79,8 +79,8 @@ async function saveData(uid, userData) {
     if (currentUser) {
       await saveData(currentUser, upd); 
     }
-
-    resetForm();
+  resetForm();
+  router.push('/re1')
 };
   
   console.log(manRes)
@@ -92,12 +92,12 @@ async function saveData(uid, userData) {
   return (
     <Flex align="center" justify="center" h="100%" mt="5%">
       <Text>{manRes.email}</Text>
-      <Box bg="gray.100" p={6} rounded="15px" w={"680px"}>
+      <Box bg="gray.100" p={6} rounded="15px" w={"680px"} mb='50px'>
         <Formik
           initialValues={{
             email: "",
             grad: "",
-            occupation: "",
+            obj: "",
             mobnum: "",
             firstname: "",
             lastname: "",
@@ -137,9 +137,9 @@ async function saveData(uid, userData) {
                 <HStack w="100%">
                   <HStack w="100%">
                     <Formi
-                      label="Occupation"
-                      id="occupation"
-                      name="occupation"
+                      label="Career Objective"
+                      id="obj"
+                      name="obj"
                       type="text"
                       variant="filled"
                     />
@@ -247,9 +247,9 @@ async function saveData(uid, userData) {
                   <Text>Select a Template</Text>
                   <HStack spacing="5%">
                     <Img src="/rep1.jpg" w="20%" borderRadius='10px'/>
-                    <Img src="/re1.jpg" w="20%" />
-                    <Img src="/re1.jpg" w="20%" />
-                    <Img src="/re1.jpg" w="20%" />
+                    <Img src="/rep1.jpg" w="20%" />
+                    <Img src="/rep1.jpg" w="20%" />
+                    <Img src="/rep1.jpg" w="20%" />
                   </HStack>
                 </Stack>
                 <Button
