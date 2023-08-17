@@ -6,6 +6,7 @@ import { Raleway } from "next/font/google";
 const inter = Raleway({ subsets: ["latin"], weight: "400" });
 import { UserAuth } from "@/app/context/AuthContext";
 import { db } from "@/app/firebaseConfig";
+import {BsTelephoneFill} from 'react-icons/bs'
 
 export default function T1() {
   
@@ -40,31 +41,43 @@ export default function T1() {
         <Box m="30px" mb="10%" boxShadow="dark-lg" w="760px" h="1070px">
           <Img src="/re1.jpg" pos="absolute" w="50%" />
 
-          <Box pos="relative" left="80px" top="80px">
+          <Box pos="relative" w='600px' h='100px' left="80px" top="80px">
             <Text as="b" fontSize="4xl">
               {userData.firstname.toUpperCase()} {userData.lastname.toUpperCase()}
             </Text>
             <Text>asdfd</Text>
           </Box>
-          <Box pos="relative" left="320px" top="160px" h='180px'>
+          <Box pos="relative" left="80px" top="150px" w='200px' h='180px'>
+            <Text mb='10px'>
+            &#9742; {userData.mobnum}
+            </Text>
+            <Text mb='10px'>
+            {userData.email}
+            </Text>
+            <Text>
+            &#xf279; {userData.address}
+            </Text>
+            
+          </Box>
+          <Box pos="relative" left="320px" top="-40px" h='180px'>
             <Text as="b" fontSize="xl">
               P R O F I L E
             </Text>
             <Text fontSize='14px' mt='10px' w='380px'>{userData.obj}</Text>
           </Box>
-          <Box pos="relative" left="320px" top="185px"  h='600px'>
+          <Box pos="relative" left="320px" top="-15px"  h='600px'>
             <Text as="b" fontSize="xl">
             E X P E R I E N C E
             </Text>
             {/* <Text mt='10px'>{age.split('').join(' ').toUpperCase()}</Text> */}
           </Box>
-          <Box pos="relative" left="80px" top="-412px"  h='300px' w='200px'>
+          <Box pos="relative" left="80px" top="-615px"  h='300px' w='200px'>
             <Text as="b" fontSize="xl" >
             S K I L L S
             </Text>
             {/* <Text mt='10px'>{age.split('').join(' ').toUpperCase()}</Text> */}
           </Box>
-          <Box pos="relative" left="80px" top="-392px" w='200px' h='300px'>
+          <Box pos="relative" left="80px" top="-592px" w='200px' h='300px'>
             <Text as="b" fontSize="xl">
             E D U C A T I O N
             </Text>

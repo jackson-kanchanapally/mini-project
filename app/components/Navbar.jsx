@@ -36,7 +36,7 @@ export default function Navbar() {
       </Box>
       <Spacer />
      {user?( <HStack spacing="30px" pr="60px" fontSize="15px">
-        <Link href="#">
+        <Link href="/resume">
           <Text _hover={{color:'#FA643F'}}>
             Resume Builder
           </Text>
