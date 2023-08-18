@@ -54,6 +54,7 @@ export default function Manpage() {
     address: Yup.string().required('Address is required'),
     grad_per: Yup.number().required('Graduation percentage is required'),
     skills: Yup.string().required('Skills are required'),
+    // skills: Yup.array().of(Yup.string().required('At least one skill is required')),
     
   });
   const onSubmit = async (val, { resetForm }) => {
@@ -70,9 +71,15 @@ export default function Manpage() {
       school: val.school,
       address: val.address,
       grad_per: Number(val.grad_per),
-      skills: val.skills,
+      // skills: val.skills,
+      skills: val.skills.split(",").map(skill => skill.trim()),
       exp: val.exp,
+      role: val.role,
+      schspan:val.schspan,
+      Tspan:val.Tspan,
+      gspan:val.gspan
     };
+    console.log(val.skills)
     if (currentUser) {
       await saveData(currentUser, upd); // Use 'await' to make sure the data is saved before resetting the form
     }
@@ -106,6 +113,10 @@ export default function Manpage() {
             grad_per:"",
             skills:"",
             exp:"",
+            role:"",
+            schspan:"",
+            Tspan:"",
+            gspan:"",
           }}
           validationSchema={vaildateSchema}
           onSubmit={onSubmit}
@@ -170,32 +181,46 @@ export default function Manpage() {
                 <Text>Education</Text>
                <HStack w="100%">
                   <Formi
-                    label="Schooling"
+                    label="School"
                     id="school"
                     name="school"
                     type="text"
                     variant="filled"
                   />
                   <Formi
-                    label="Schooling Percentage"
+                    label="Percentage"
                     id="schper"
                     name="schper"
+                    type="text"
+                    variant="filled"
+                  />
+                  <Formi
+                    label="(eg:2010-2014)"
+                    id="schspan"
+                    name="schspan"
                     type="text"
                     variant="filled"
                   />
                 </HStack>
                 <HStack w="100%">
                   <Formi
-                    label="12 Schooling"
+                    label="12th"
                     id="school12"
                     name="school12"
                     type="text"
                     variant="filled"
                   />
                   <Formi
-                    label="12 Schooling Percentage"
+                    label="Percentage"
                     id="schper12"
                     name="schper12"
+                    type="text"
+                    variant="filled"
+                  />
+                  <Formi
+                    label="(eg:2010-2014)"
+                    id="Tspan"
+                    name="Tspan"
                     type="text"
                     variant="filled"
                   />
@@ -209,9 +234,16 @@ export default function Manpage() {
                     variant="filled"
                   />
                   <Formi
-                    label="Graduation Percentage"
+                    label="Percentage"
                     id="grad_per"
                     name="grad_per"
+                    type="text"
+                    variant="filled"
+                  />
+                  <Formi
+                    label="(eg:2010-2014)"
+                    id="gspan"
+                    name="gspan"
                     type="text"
                     variant="filled"
                   />
@@ -237,6 +269,16 @@ export default function Manpage() {
                     type="text"
                     variant="filled"
                   />
+                </HStack>
+                <HStack w="100%">
+                  <Formi
+                    label="Applying for Role"
+                    id="role"
+                    name="role"
+                    type="text"
+                    variant="filled"
+                  />
+                  
                 </HStack>
                 </Stack>
                 <Button

@@ -1,5 +1,5 @@
 'use client'
-import { Flex, chakra, Image, Box, Text } from "@chakra-ui/react";
+import { Flex, chakra, Image, Box, Text,ListItem,UnorderedList } from "@chakra-ui/react";
 import React, { useEffect, useState} from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { Raleway } from "next/font/google";
@@ -7,6 +7,7 @@ const inter = Raleway({ subsets: ["latin"], weight: "400" });
 import { UserAuth } from "@/app/context/AuthContext";
 import { db } from "@/app/firebaseConfig";
 import { EmailIcon} from '@chakra-ui/icons'
+import {TriangleUpIcon} from '@chakra-ui/icons'
 
 export default function T1() {
   
@@ -45,7 +46,7 @@ export default function T1() {
             <Text as="b" fontSize="4xl">
               {userData.firstname.toUpperCase()} {userData.lastname.toUpperCase()}
             </Text>
-            <Text>asdfd</Text>
+            <Text fontSize='18px'>{userData.role.toUpperCase().split('').map(char => char === ' ' ? '\u00A0\u00A0' : char + ' ').join('')}</Text>
           </Box>
           <Box pos="relative" fontSize='13px' left="70px" top="160px" w='200px' h='180px'>
             <Text mb='10px'>
@@ -55,7 +56,7 @@ export default function T1() {
             <EmailIcon/> {userData.email}
             </Text>
             <Text>
-            &#xf279; {userData.address}
+            <TriangleUpIcon/> {userData.address}
             </Text>
             
           </Box>
@@ -71,17 +72,38 @@ export default function T1() {
             </Text>
             {/* <Text mt='10px'>{age.split('').join(' ').toUpperCase()}</Text> */}
           </Box>
-          <Box pos="relative" left="80px" top="-615px"  h='300px' w='200px'>
+          <Box pos="relative" left="70px" top="-615px"  h='300px' w='200px'>
             <Text as="b" fontSize="xl" >
             S K I L L S
             </Text>
-            {/* <Text mt='10px'>{age.split('').join(' ').toUpperCase()}</Text> */}
+            {userData.skills.map((skill,index)=>(
+              <UnorderedList key={index}>
+                <ListItem my='5px'>{skill}</ListItem>
+              </UnorderedList>
+            ))}
           </Box>
-          <Box pos="relative" left="80px" top="-592px" w='200px' h='300px'>
+          <Box pos="relative" left="70px" top="-592px" w='200px' h='300px'>
             <Text as="b" fontSize="xl">
             E D U C A T I O N
             </Text>
-            {/* <Text mt='10px'>{age.split('').join(' ').toUpperCase()}</Text> */}
+            <Box mt='14px'>
+              <Text fontWeight='extrabold' fontSize='12px'>G R A D A T I O N </Text>
+              <Text >{userData.grad}</Text>
+              {/* <Text>{userData.schper} %</Text> */}
+              <Text>{userData.gspan}</Text>
+            </Box>
+            <Box mt='14px'>
+              <Text fontWeight='extrabold' fontSize='12px'>G R A D A T I O N </Text>
+              <Text >{userData.school12}</Text>
+              {/* <Text>{userData.schper} %</Text> */}
+              <Text>{userData.Tspan}</Text>
+            </Box>
+            <Box mt='14px'>
+              <Text fontWeight='extrabold' fontSize='12px'>S E C O N D A R Y &nbsp;&nbsp; S C H O O L </Text>
+              <Text >{userData.school}</Text>
+              {/* <Text>{userData.schper} %</Text> */}
+              <Text>{userData.schspan}</Text>
+            </Box>
           </Box>
         </Box>
         {/* <Button onClick={downloadPdf}>Download</Button> */}
