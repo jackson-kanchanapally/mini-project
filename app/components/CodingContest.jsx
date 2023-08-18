@@ -26,7 +26,7 @@ const CodingContest = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [data]);
   const options = {
     month: "long",
     day: "numeric",

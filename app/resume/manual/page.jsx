@@ -24,6 +24,7 @@ import {useRouter} from 'next/navigation'
 export default function Manpage() {
     const [loginEr, setLoginEr] = React.useState("");
     const { user } = UserAuth();
+    const [loading,setLoading]=React.useState(false)
     let currentUser = null;
   
     if (user) {
@@ -77,6 +78,7 @@ export default function Manpage() {
     }
 
     resetForm();
+    setLoading(true)
     router.push('/re1')
   };
   const Img = chakra(Image, {
@@ -239,6 +241,7 @@ export default function Manpage() {
                 </Stack>
                 <Button
                   type="submit"
+                  isLoading={loading?true:false}
                   bg="#FA643F"
                   w="full"
                   _hover={{ bg: "#FF5757" }}

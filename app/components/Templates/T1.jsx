@@ -6,7 +6,7 @@ import { Raleway } from "next/font/google";
 const inter = Raleway({ subsets: ["latin"], weight: "400" });
 import { UserAuth } from "@/app/context/AuthContext";
 import { db } from "@/app/firebaseConfig";
-import {BsTelephoneFill} from 'react-icons/bs'
+import { EmailIcon} from '@chakra-ui/icons'
 
 export default function T1() {
   
@@ -38,21 +38,21 @@ export default function T1() {
   return (
    <div className={inter.className}>
      {userData&&  <Flex ml="25%">
-        <Box m="30px" mb="10%" boxShadow="dark-lg" w="760px" h="1070px">
+        <Box m="30px" mb="10%" boxShadow="lg" w="760px" h="1070px">
           <Img src="/re1.jpg" pos="absolute" w="50%" />
 
-          <Box pos="relative" w='600px' h='100px' left="80px" top="80px">
+          <Box pos="relative" w='600px' h='100px' left="70px" top="80px">
             <Text as="b" fontSize="4xl">
               {userData.firstname.toUpperCase()} {userData.lastname.toUpperCase()}
             </Text>
             <Text>asdfd</Text>
           </Box>
-          <Box pos="relative" left="80px" top="150px" w='200px' h='180px'>
+          <Box pos="relative" fontSize='13px' left="70px" top="160px" w='200px' h='180px'>
             <Text mb='10px'>
             &#9742; {userData.mobnum}
             </Text>
             <Text mb='10px'>
-            {userData.email}
+            <EmailIcon/> {userData.email}
             </Text>
             <Text>
             &#xf279; {userData.address}

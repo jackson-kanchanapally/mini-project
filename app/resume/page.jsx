@@ -1,15 +1,18 @@
 'use client'
 import React from 'react'
-// import Image from 'next/image'
-import {Flex, Card,Stack,Text,Heading,CardHeader,Image, CardBody, CardFooter,chakra, Box, Button } from '@chakra-ui/react'
+
+import {Flex, Card,Stack,Text,Heading,Spinner,Image, CardBody, CardFooter,chakra, Box, Button } from '@chakra-ui/react'
+
 import Link from 'next/link'
-export default function page() {
+export default function Rpage() {
     const Img = chakra(Image, {
         shouldForwardProp: (prop) =>
           ["width", "height", "src", "alt"].includes(prop),
       });
+
   return (
    <Flex justifyContent='center' mt='2%'>
+   
   <Box >
     <Card maxW='sm' borderRaduis='15px' bg='gray.100'>
   <CardBody>
@@ -45,7 +48,7 @@ export default function page() {
       <Text>
         The user must take a test and maintain above 75% in that test to generate a resume automatically.
       </Text>
-      <Link href='/resume/auto'><Button bg="#FA643F" w='full'>Automatic</Button></Link>
+      <Link href='/resume/auto' prefetch={true}><Button bg="#FA643F" w='full'>Automatic</Button></Link>
     </Stack>
   </CardBody>
   </Card>

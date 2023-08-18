@@ -10,7 +10,7 @@ export default function Homepage() {
     shouldForwardProp: (prop) =>
       ["width", "height", "src", "alt"].includes(prop),
   });
-  // const {user}=UserAuth()
+  const {user}=UserAuth()
   // useEffect(() => {
   //   if (user) {
   //     router.push('/login'); // Redirect to login page if user is not authenticated

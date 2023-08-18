@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, Flex, Text, VStack, chakra, Image} from "@chakra-ui/react";
+import { Box, Button, Flex, Text, VStack, chakra, Image,Spinner} from "@chakra-ui/react";
 import { Formik, Field,Form } from "formik";
 import React,{useState} from 'react'
 // import Formi from "../../components/Form";
@@ -12,19 +12,14 @@ import Formi from "@/app/components/Form";
 // import Image from 'next/image'
 export default function Login() {
   const [loginEr,setLoginEr]=useState('')
+  const [loading, setLoading] = useState(true); 
   const router = useRouter();
+
+  React.useEffect(() => {
+    setLoading(false); 
+  }, []);
+
   const onSubmit=async(val,{resetForm})=>{
-  //   console.log(val.email+"  "+val.password)
-  //  SignInWithEmail(val.email,val.password)
-  //  .then(()=>{
-  //   router.push('/')
-  //  })
-  //   .catch((err)=>{
-  //     setLoginEr(err.code)
-  //     console.log("Code->",err.code)
-  //     console.log("Mess->",err.message)
-  //     resetForm()
-  //   })
       signInWithEmailAndPassword(auth,val.email,val.password)
       .then(()=>{
         router.push('/')
@@ -40,30 +35,33 @@ export default function Login() {
     shouldForwardProp: (prop) =>
       ["width", "height", "src", "alt"].includes(prop),
   });
-  const {user,logOut,googleSignIn,SignInWithEmail}=UserAuth()
+  const {user}=UserAuth()
 
-  const handleSignIn=async()=>{
-    try{
-      await googleSignIn()
+  // const handleSignIn=async()=>{
+  //   try{
+  //     await googleSignIn()
 
-    }catch(err){
-      console.log(err)
-    }
-  }
+  //   }catch(err){
+  //     console.log(err)
+  //   }
+  // }
 
-  const handleSignOut=async()=>{
-    try{
-      await logOut()
-    }
-    catch(err){
-      console.log(err)
-    }
-  }
+  // const handleSignOut=async()=>{
+  //   try{
+  //     await logOut()
+  //   }
+  //   catch(err){
+  //     console.log(err)
+  //   }
+  // }
 
   return (
     <Flex align="center" justify="center" h="90vh">
-    <Box bg="gray.100" p={6} rounded="15px" w={'380px'}>
-      <Formik
+      {loading ? (
+          <Spinner size="xl" color="gray.500" />
+        ) :
+     (<Box bg="gray.100" p={6} rounded="15px" w={'380px'}>
+   <Formik
         initialValues={{
           email: "",
           password: "",
@@ -102,7 +100,7 @@ export default function Login() {
           </Form>
         )}
       </Formik>
-    </Box>
+    </Box>)}
   </Flex>
   )
 }
