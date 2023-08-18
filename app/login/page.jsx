@@ -12,16 +12,17 @@ import Formi from "@/app/components/Form";
 // import Image from 'next/image'
 export default function Login() {
   const [loginEr,setLoginEr]=useState('')
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(false); 
   const router = useRouter();
 
-  React.useEffect(() => {
-    setLoading(false); 
-  }, []);
+  // React.useEffect(() => {
+  //   setLoading(false); 
+  // }, []);
 
   const onSubmit=async(val,{resetForm})=>{
       signInWithEmailAndPassword(auth,val.email,val.password)
       .then(()=>{
+        setLoading(true)
         router.push('/')
       }).catch((err)=>{
         if (err && err.code === 'auth/wrong-password') {
@@ -57,10 +58,8 @@ export default function Login() {
 
   return (
     <Flex align="center" justify="center" h="90vh">
-      {loading ? (
-          <Spinner size="xl" color="gray.500" />
-        ) :
-     (<Box bg="gray.100" p={6} rounded="15px" w={'380px'}>
+     
+     <Box bg="gray.100" p={6} rounded="15px" w={'380px'}>
    <Formik
         initialValues={{
           email: "",
@@ -90,7 +89,7 @@ export default function Login() {
                 variant="filled"
               />
 
-              <Button type="submit"  bg="#FA643F" w="full" _hover={{ bg: "#FF5757" }}>
+              <Button isLoading={loading?true:false} type="submit"  bg="#FA643F" w="full" _hover={{ bg: "#FF5757" }}>
                 Login
               </Button>
               <Link href='/register'><Text fontSize='13px' >Create Account ? SignUp</Text></Link>
@@ -100,7 +99,7 @@ export default function Login() {
           </Form>
         )}
       </Formik>
-    </Box>)}
+    </Box>
   </Flex>
   )
 }

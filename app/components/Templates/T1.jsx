@@ -1,5 +1,5 @@
 'use client'
-import { Flex, chakra, Image, Box, Text,ListItem,UnorderedList } from "@chakra-ui/react";
+import { Flex, chakra, Image, Box, Text,ListItem,UnorderedList,Button } from "@chakra-ui/react";
 import React, { useEffect, useState} from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { Raleway } from "next/font/google";
@@ -8,9 +8,28 @@ import { UserAuth } from "@/app/context/AuthContext";
 import { db } from "@/app/firebaseConfig";
 import { EmailIcon} from '@chakra-ui/icons'
 import {TriangleUpIcon} from '@chakra-ui/icons'
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas'
 
 export default function T1() {
   
+  const pdfRef=React.useRef()
+  const downloadPDF=()=>{
+    const input=pdfRef.current
+    html2canvas(input).then((canvas)=>{
+      const imgData=canvas.toDataURL('image/png')
+      const pdf=new jsPDF('p','mm','a4',true)
+      const pdfWidth=pdf.internal.pageSize.getWidth()
+      const pdfHeight=pdf.internal.pageSize.getHeight()
+      const imgWidth=canvas.width
+      const imgHeight=canvas.height
+      const ratio=Math.min(pdfWidth/imgWidth,pdfHeight/imgHeight)
+      const imgX=(pdfWidth-imgWidth*ratio)/2
+      const imgY=30
+      pdf.addImage(imgData,'PNG',imgX,imgY,imgWidth*ratio,imgHeight*ratio)
+      pdf.save('resume.pdf')
+    })
+  }
   const Img = chakra(Image, {
     shouldForwardProp: (prop) =>
       ["width", "height", "src", "alt"].includes(prop),
@@ -37,9 +56,10 @@ export default function T1() {
     }
   }, [user]);
   return (
-   <div className={inter.className}>
+   <div className={inter.className} >
      {userData&&  <Flex ml="25%">
-        <Box m="30px" mb="10%" boxShadow="lg" w="760px" h="1070px">
+        <Box m="30px" mb="10%" boxShadow="lg" w="760px" h="1070px" >
+       <Box ref={pdfRef} >
           <Img src="/re1.jpg" pos="absolute" w="50%" />
 
           <Box pos="relative" w='600px' h='100px' left="70px" top="80px">
@@ -106,7 +126,8 @@ export default function T1() {
             </Box>
           </Box>
         </Box>
-        {/* <Button onClick={downloadPdf}>Download</Button> */}
+        </Box>
+        <Button onClick={downloadPDF}>Download</Button>
       </Flex> }
     </div>
   );
