@@ -14,6 +14,7 @@ import html2canvas from 'html2canvas'
 export default function T1() {
   
   const pdfRef=React.useRef()
+  const [userData, setUserData] = useState(null);
   const downloadPDF=()=>{
     const input=pdfRef.current
     html2canvas(input).then((canvas)=>{
@@ -27,7 +28,7 @@ export default function T1() {
       const imgX=(pdfWidth-imgWidth*ratio)/2
       const imgY=30
       pdf.addImage(imgData,'PNG',imgX,imgY,imgWidth*ratio,imgHeight*ratio)
-      pdf.save('resume.pdf')
+      pdf.save(`${userData.firstname}${userData.lastname}.pdf`)
     })
   }
   const Img = chakra(Image, {
@@ -35,7 +36,6 @@ export default function T1() {
       ["width", "height", "src", "alt"].includes(prop),
   });
   const { user } = UserAuth();
-  const [userData, setUserData] = useState(null);
   useEffect(() => {
     if (user) {
       async function fetchUserData(uid) {
@@ -62,7 +62,7 @@ export default function T1() {
        <Box ref={pdfRef} >
           <Img src="/re1.jpg" pos="absolute" w="50%" />
 
-          <Box pos="relative" w='600px' h='100px' left="70px" top="80px">
+          <Box pos="relative" w='600px' h='100px' left="60px" top="80px">
             <Text as="b" fontSize="4xl">
               {userData.firstname.toUpperCase()} {userData.lastname.toUpperCase()}
             </Text>

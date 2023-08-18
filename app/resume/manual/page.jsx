@@ -256,7 +256,7 @@ export default function Manpage() {
               </HStack>
                 <HStack w="100%">
                   <Formi
-                    label="Skills Known"
+                    label="Skills(eg: web,android)"
                     id="skills"
                     name="skills"
                     type="text"
