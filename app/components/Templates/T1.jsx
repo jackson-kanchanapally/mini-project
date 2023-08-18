@@ -8,6 +8,7 @@ import { UserAuth } from "@/app/context/AuthContext";
 import { db } from "@/app/firebaseConfig";
 import { EmailIcon} from '@chakra-ui/icons'
 import {TriangleUpIcon} from '@chakra-ui/icons'
+import {MdFileDownload} from 'react-icons/md'
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas'
 
@@ -127,7 +128,7 @@ export default function T1() {
           </Box>
         </Box>
         </Box>
-        <Button onClick={downloadPDF}>Download</Button>
+        <Button bg="#FA643F" mt='60px' onClick={downloadPDF}><MdFileDownload/> Download</Button>
       </Flex> }
     </div>
   );

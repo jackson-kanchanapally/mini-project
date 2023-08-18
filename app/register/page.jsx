@@ -22,12 +22,14 @@ import { useRouter } from 'next/navigation'
 export default function Login() {
   const router = useRouter();
   const [loginEr,setLoginEr]=React.useState('')
+  const [loading,setLoading]=React.useState(false)
   const onSubmit = async (val, { resetForm }) => {
     createUserWithEmailAndPassword(auth,
       val.email,
       val.password
       )
       .then(()=>{
+        setLoading(true)
         router.push('/')
       })
       .catch(err=>{
@@ -133,7 +135,7 @@ export default function Login() {
                     type="password"
                     variant="filled"
                   />
-                <Button type="submit"  bg="#FA643F" w="full" _hover={{ bg: "#FF5757" }}>
+                <Button type="submit" isLoading={loading?true:false} bg="#FA643F" w="full" _hover={{ bg: "#FF5757" }}>
                Create Account
               </Button>
                 <Link href="/login">
