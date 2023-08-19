@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { Formik, Field, Form } from "formik";
 import { db } from "@/app/firebaseConfig";
-import { doc, setDoc} from 'firebase/firestore'
+import { doc, setDoc,updateDoc} from 'firebase/firestore'
 import { UserAuth } from "@/app/context/AuthContext";
 import { ResumeCon } from "@/app/context/ResumeContext";
 import Formi from "@/app/components/Form";
@@ -23,7 +23,7 @@ import {useRouter} from 'next/navigation'
 
 export default function Manpage() {
     const [loginEr, setLoginEr] = React.useState("");
-    const { user } = UserAuth();
+    const {user}=UserAuth()
     const [loading,setLoading]=React.useState(false)
     let currentUser = null;
   
@@ -33,7 +33,7 @@ export default function Manpage() {
     async function saveData(uid, userData) {
       try {
         const userDocRef = doc(db, "users", uid);
-        await setDoc(userDocRef, userData);
+        await updateDoc(userDocRef, userData);
         console.log("success doc");
       } catch (err) {
         console.log("Lov Error",err);

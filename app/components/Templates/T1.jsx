@@ -58,26 +58,26 @@ export default function T1() {
   }, [user]);
   return (
    <div className={inter.className} >
-     {userData&&  <Flex ml="25%">
-        <Box m="30px" mb="10%" boxShadow="lg" w="760px" h="1070px" >
-       <Box ref={pdfRef} >
-          <Img src="/re1.jpg" pos="absolute" w="50%" />
+      <Flex justifyContent='center' direction='column' alignItems='center'>
+        <Box m="30px" mb="0px" boxShadow="lg" w="760px" h="1070px" >
+       <Box ref={pdfRef} h='1200px' w='790px' >
+          <Img src="/re1.jpg" pos="absolute" w="760px" />
 
           <Box pos="relative" w='600px' h='100px' left="60px" top="80px">
             <Text as="b" fontSize="4xl">
-              {userData.firstname.toUpperCase()} {userData.lastname.toUpperCase()}
+              {userData?.firstname.toUpperCase()} {userData?.lastname.toUpperCase()}
             </Text>
-            <Text fontSize='18px'>{userData.role.toUpperCase().split('').map(char => char === ' ' ? '\u00A0\u00A0' : char + ' ').join('')}</Text>
+            <Text fontSize='18px'>{userData?.role.toUpperCase().split('').map(char => char === ' ' ? '\u00A0\u00A0' : char + ' ').join('')}</Text>
           </Box>
           <Box pos="relative" fontSize='13px' left="70px" top="160px" w='200px' h='180px'>
             <Text mb='10px'>
-            &#9742; {userData.mobnum}
+            &#9742; {userData?.mobnum}
             </Text>
             <Text mb='10px'>
-            <EmailIcon/> {userData.email}
+            <EmailIcon/> {userData?.email}
             </Text>
             <Text>
-            <TriangleUpIcon/> {userData.address}
+            <TriangleUpIcon/> {userData?.address}
             </Text>
             
           </Box>
@@ -85,7 +85,7 @@ export default function T1() {
             <Text as="b" fontSize="xl">
               P R O F I L E
             </Text>
-            <Text fontSize='14px' mt='10px' w='380px'>{userData.obj}</Text>
+            <Text fontSize='14px' mt='10px' w='380px'>{userData?.obj}</Text>
           </Box>
           <Box pos="relative" left="320px" top="-15px"  h='600px'>
             <Text as="b" fontSize="xl">
@@ -97,7 +97,7 @@ export default function T1() {
             <Text as="b" fontSize="xl" >
             S K I L L S
             </Text>
-            {userData.skills.map((skill,index)=>(
+            {userData?.skills.map((skill,index)=>(
               <UnorderedList key={index}>
                 <ListItem my='5px'>{skill}</ListItem>
               </UnorderedList>
@@ -109,27 +109,28 @@ export default function T1() {
             </Text>
             <Box mt='14px'>
               <Text fontWeight='extrabold' fontSize='12px'>G R A D A T I O N </Text>
-              <Text >{userData.grad}</Text>
+              <Text >{userData?.grad}</Text>
               {/* <Text>{userData.schper} %</Text> */}
-              <Text>{userData.gspan}</Text>
+              <Text>{userData?.gspan}</Text>
             </Box>
             <Box mt='14px'>
               <Text fontWeight='extrabold' fontSize='12px'>G R A D A T I O N </Text>
-              <Text >{userData.school12}</Text>
+              <Text >{userData?.school12}</Text>
               {/* <Text>{userData.schper} %</Text> */}
-              <Text>{userData.Tspan}</Text>
+              <Text>{userData?.Tspan}</Text>
             </Box>
             <Box mt='14px'>
               <Text fontWeight='extrabold' fontSize='12px'>S E C O N D A R Y &nbsp;&nbsp; S C H O O L </Text>
-              <Text >{userData.school}</Text>
+              <Text >{userData?.school}</Text>
               {/* <Text>{userData.schper} %</Text> */}
-              <Text>{userData.schspan}</Text>
+              <Text>{userData?.schspan}</Text>
             </Box>
           </Box>
         </Box>
         </Box>
+       
         <Button bg="#FA643F" mt='60px' onClick={downloadPDF}><MdFileDownload/> Download</Button>
-      </Flex> }
+      </Flex> 
     </div>
   );
 }

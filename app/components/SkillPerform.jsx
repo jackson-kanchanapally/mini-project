@@ -10,6 +10,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import {db} from '../firebaseConfig'
+import { UserAuth } from "@/app/context/AuthContext";
 import { collection,
   addDoc,
   getDoc,
@@ -17,7 +18,9 @@ import { collection,
   query,
   onSnapshot,
   deleteDoc,
+  updateDoc,
   doc,} from 'firebase/firestore'
+
 
 export default function SkillPerform({ cou }) {
   const data = {
@@ -1047,9 +1050,36 @@ export default function SkillPerform({ cou }) {
       ],
     },
   };
-  //const {user}=UserAuth()
-  const [selectedAnswers, setSelectedAnswers] = useState(Array(10).fill(null));
+  const router=useRouter()
   const [result, setResult] = useState(0);
+  const {user}=UserAuth()
+  let currentUser = null;
+  
+  if (user) {
+    currentUser = user.uid;
+  }
+  async function saveData(uid,data,courseName){
+  try{
+    const userDocRef = doc(db, "users", uid);
+    const testCollectionRef = collection(userDocRef, "tests"); // Create a subcollection for tests
+    const testDocRef = doc(testCollectionRef, courseName);
+    await updateDoc(testDocRef,
+      {
+        test:{
+          
+            course:courseName,
+            result:data
+          
+        }
+      }
+      )
+    console.log('success update')
+  }
+  catch(err){
+    console.log(err)
+  }
+  }
+  const [selectedAnswers, setSelectedAnswers] = useState(Array(10).fill(null));
   const handleValueChange = (questionIndex, selectedValue) => {
     setSelectedAnswers((prevAnswers) => {
       const updatedAnswers = [...prevAnswers];
@@ -1071,11 +1101,11 @@ export default function SkillPerform({ cou }) {
     );
 
     setResult((score / correctAnswers.length) * 100);
-    await addDoc(collection(db,'result'),{
-      //user:user.email,
-      result:result
-    })
-
+  if(currentUser)
+  {
+    saveData(currentUser,result,cou)
+  }
+  router.push('/skilltests/result')
   };
   return (
     <Flex justify="center" align="center" w='100%'>
@@ -1129,7 +1159,7 @@ export default function SkillPerform({ cou }) {
         >
           Submit
         </Button>
-       
+      
       </Stack>
     </Flex>
   );

@@ -16,6 +16,8 @@ import {auth} from '../firebaseConfig'
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import Link from "next/link";
 import { UserAuth } from "../context/AuthContext";
+import { db } from "@/app/firebaseConfig";
+import { doc, setDoc} from 'firebase/firestore'
 import Formi from "../components/Form";
 import { useRouter } from 'next/navigation'
 
@@ -23,24 +25,53 @@ export default function Login() {
   const router = useRouter();
   const [loginEr,setLoginEr]=React.useState('')
   const [loading,setLoading]=React.useState(false)
+  // const onSubmit = async (val, { resetForm }) => {
+  //   createUserWithEmailAndPassword(auth,
+  //     val.email,
+  //     val.password
+  //     )
+
+  //     .then(()=>{
+      
+  //       setLoading(true)
+  //       router.push('/')
+  //     })
+  //     .catch(err=>{
+  //       if(err&&err.code==='(auth/email-already-in-use)')
+  //       {
+  //         setLoginEr('Email Already Exists')
+  //       }
+  //       else{
+  //         setLoginEr(`Error ${err}`);
+  //         };
+  //     })
+  // };
   const onSubmit = async (val, { resetForm }) => {
-    createUserWithEmailAndPassword(auth,
-      val.email,
-      val.password
-      )
-      .then(()=>{
-        setLoading(true)
-        router.push('/')
-      })
-      .catch(err=>{
-        if(err&&err.code==='(auth/email-already-in-use)')
-        {
-          setLoginEr('Email Already Exists')
-        }
-        else{
-          setLoginEr(`Error ${err}`);
-          };
-      })
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        val.email,
+        val.password
+      );
+
+      const user = userCredential.user;
+
+      // Create a user document in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        name: val.firstname+val.lastname,
+        occupation: val.occupation,
+        contact: val.mobnum,
+      });
+
+      setLoading(true);
+      router.push("/");
+    } catch (err) {
+      if (err && err.code === "auth/email-already-in-use") {
+        setLoginEr("Email Already Exists");
+      } else {
+        setLoginEr(`Error ${err}`);
+      }
+    }
   };
   const Img = chakra(Image, {
     shouldForwardProp: (prop) =>
