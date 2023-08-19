@@ -8,12 +8,12 @@ import {
   chakra,
   Image,
   HStack,
-  Select,
+
 } from "@chakra-ui/react";
-import { Formik, Field, Form } from "formik";
+import { Formik, Form } from "formik";
 import React from "react";
 import {auth} from '../firebaseConfig'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import Link from "next/link";
 import { UserAuth } from "../context/AuthContext";
 import { db } from "@/app/firebaseConfig";
@@ -46,17 +46,22 @@ export default function Login() {
   //         };
   //     })
   // };
+
   const onSubmit = async (val, { resetForm }) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
+      const {user} = await createUserWithEmailAndPassword(
         auth,
         val.email,
         val.password
       );
 
-      const user = userCredential.user;
+      // const user = userCredential.user;
+        await updateProfile(user,{
+          displayName:val.firstname+" "+val.lastname,
+          phoneNumber:val.mobnum,
 
-      // Create a user document in Firestore
+        })
+
       await setDoc(doc(db, "users", user.uid), {
         name: val.firstname+val.lastname,
         occupation: val.occupation,
