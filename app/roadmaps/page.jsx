@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Roadmap from "../components/Roadmap";
-import { Flex, Box, chakra, Image, Center } from "@chakra-ui/react";
+import { Flex, Box, chakra, Image, Center ,Stack} from "@chakra-ui/react";
 
 
 export default function RoadmapPage() {
@@ -12,11 +12,11 @@ export default function RoadmapPage() {
       ["width", "height", "src", "alt"].includes(prop),
   });
   return (
-    <Flex color="black" alignItems="center" >
-      <Flex direction="column" h="91vh" bg="white">
+    <Flex color="black" alignItems="stretch" width='100%' h='100%'>
+      <Stack h='91vh' bg="white" width="260px" overflowY="auto" flexShrink="0">
         <Box
           _hover={{ color: "#FA643F" }}
-          p="25px"
+          p="20px"
           color="gray.700"
           onClick={() => setCourse("Frontend Development")}
         >
@@ -24,7 +24,7 @@ export default function RoadmapPage() {
         </Box>
         <Box
           _hover={{ color: "#FA643F" }}
-          p="25px"
+          p="20px"
           color="gray.700"
           onClick={() => setCourse("Backend Development")}
         >
@@ -32,7 +32,7 @@ export default function RoadmapPage() {
         </Box>
         <Box
           _hover={{ color: "#FA643F" }}
-          p="25px"
+          p="20px"
           color="gray.700"
           onClick={() => setCourse("Full Stack Development")}
         >
@@ -40,7 +40,7 @@ export default function RoadmapPage() {
         </Box>
         <Box
           _hover={{ color: "#FA643F" }}
-          p="25px"
+          p="20px"
           color="gray.700"
           onClick={() => setCourse("Android Development")}
         >
@@ -48,7 +48,7 @@ export default function RoadmapPage() {
         </Box>
         <Box
           _hover={{ color: "#FA643F" }}
-          p="25px"
+          p="20px"
           color="gray.700"
           onClick={() => setCourse("Blockchain Development")}
         >
@@ -56,7 +56,7 @@ export default function RoadmapPage() {
         </Box>
         <Box
           _hover={{ color: "#FA643F" }}
-          p="25px"
+          p="20px"
           color="gray.700"
           onClick={() => setCourse("DevOps")}
         >
@@ -64,7 +64,7 @@ export default function RoadmapPage() {
         </Box>
         <Box
           _hover={{ color: "#FA643F" }}
-          p="25px"
+          p="20px"
           color="gray.700"
           onClick={() => setCourse("Data Structures")}
         >
@@ -72,7 +72,7 @@ export default function RoadmapPage() {
         </Box>
         <Box
           _hover={{ color: "#FA643F" }}
-          p="25px"
+          p="20px"
           color="gray.700"
           onClick={() => setCourse("Artificial Intelligence (AI)")}
         >
@@ -80,13 +80,13 @@ export default function RoadmapPage() {
         </Box>
         <Box
           _hover={{ color: "#FA643F" }}
-          p="25px"
+          p="20px"
           color="gray.700"
           onClick={() => setCourse("Cloud Computing")}
         >
           Cloud Computing
         </Box>
-      </Flex>
+      </Stack>
       <Flex justifyContent="center" alignItems="center" m="auto" >
         
           {course ? (

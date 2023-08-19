@@ -137,6 +137,7 @@ export default function Roadmap({ cou }) {
     setComplete([])
     setActiveIndex(0)
   }, [cou]);
+  console.log(complete)
   const handleCheckboxChange = (index, course) => {
     if (index === activeIndex) {
       if (!complete.includes(course)) {
@@ -182,7 +183,7 @@ export default function Roadmap({ cou }) {
          isDisabled={!isAllCheckboxesFilled}
           my="10px"
           bg="#FA643F"
-          w="full"
+          w="90%" ml='22px'
           _hover={{ bg: "#FF5757" }}
           onClick={handleClick}
         >

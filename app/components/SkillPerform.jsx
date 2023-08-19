@@ -14,6 +14,7 @@ import { UserAuth } from "@/app/context/AuthContext";
 import { collection,
   addDoc,
   getDoc,
+  setDoc,
   querySnapshot,
   query,
   onSnapshot,
@@ -1051,8 +1052,8 @@ export default function SkillPerform({ cou }) {
     },
   };
   const router=useRouter()
-  const [result, setResult] = useState(0);
   const {user}=UserAuth()
+  const [result, setResult] = useState(0);
   let currentUser = null;
   
   if (user) {
@@ -1063,14 +1064,11 @@ export default function SkillPerform({ cou }) {
     const userDocRef = doc(db, "users", uid);
     const testCollectionRef = collection(userDocRef, "tests"); // Create a subcollection for tests
     const testDocRef = doc(testCollectionRef, courseName);
-    await updateDoc(testDocRef,
+    await setDoc(testDocRef,
       {
-        test:{
-          
-            course:courseName,
+          course:courseName,
             result:data
-          
-        }
+        
       }
       )
     console.log('success update')
@@ -1100,13 +1098,16 @@ export default function SkillPerform({ cou }) {
       0
     );
 
-    setResult((score / correctAnswers.length) * 100);
-  if(currentUser)
+   setResult((score / correctAnswers.length) * 100);
+  
+    router.push('/skilltests/result')
+  };
+  React.useEffect(()=>{
+    if(currentUser)
   {
     saveData(currentUser,result,cou)
   }
-  router.push('/skilltests/result')
-  };
+  },[result])
   return (
     <Flex justify="center" align="center" w='100%'>
       <Stack direction="column" w="800px">

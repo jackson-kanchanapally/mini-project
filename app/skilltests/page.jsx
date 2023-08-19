@@ -3,11 +3,44 @@ import React from "react";
 import Roadmap from "../components/Roadmap";
 import {  Flex, Box, Stack,chakra,Image, Text,  } from "@chakra-ui/react";
 import SkillPerform from "../components/SkillPerform";
-
-
+import {db} from '../firebaseConfig'
+import { UserAuth } from "@/app/context/AuthContext";
+import { collection,
+  addDoc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  doc,} from 'firebase/firestore'
+  import { ResumeCon } from "@/app/context/ResumeContext";
 export default function RoadmapPage() {
 
   const [course, setCourse] = React.useState('');
+  const {cn,setCn}=ResumeCon()
+  const {user}=UserAuth()
+  let currentUser = null;
+
+ 
+  if (user) {
+    currentUser = user.uid;
+  }
+  async function saveData(uid,courseName){
+    try{
+      const userDocRef = doc(db, "users", uid);
+    
+      await updateDoc(userDocRef,
+        {
+            selcourse:courseName,
+        }
+        )
+      console.log('success update')
+    }
+    catch(err){
+      console.log(err)
+    }
+    }
+   React.useEffect(()=>{
+    saveData(currentUser,course)
+   },[course])
   const Img = chakra(Image, {
     shouldForwardProp: (prop) =>
       ["width", "height", "src", "alt"].includes(prop),
@@ -101,8 +134,7 @@ export default function RoadmapPage() {
           {course ? <SkillPerform cou={course} />:
         <Img src='testbg.png' w='40%'/>
           }
-          
-      
+        
       </Flex>
     </Flex>
   );

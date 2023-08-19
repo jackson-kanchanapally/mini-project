@@ -19,11 +19,12 @@ const [manRes,setManRes]=useState
     skills: "",
     exp: "",
   })
+  const [cn,setCn]=useState('Frontend Development')
 const ManResSet=(resData)=>{
     setManRes(resData)
 }
     return(
-        <ResumeContext.Provider value={{manRes,ManResSet}}>
+        <ResumeContext.Provider value={{manRes,ManResSet,cn,setCn}}>
             {children}
         </ResumeContext.Provider>
     )
