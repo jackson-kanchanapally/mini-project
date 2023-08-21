@@ -396,6 +396,24 @@ export default function Manpage() {
                     variant="filled"
                   />
                   <Box>
+                    <Flex
+                      ml="20px"
+                      w="100%"
+                      h="100%"
+                      bg="gray.100"
+                      
+                      justifyContent="center"
+                   
+                    >
+                      <Box>
+                        <Img src="/samp1.jpg" alt="Theme 1" w="100px" />
+                        <Text textAlign="center">Theme 1</Text>
+                      </Box>
+                      <Box ml='20px'>
+                        <Img src="/samp2.jpg" w="100px" alt="Theme 2" />
+                        <Text textAlign="center">Theme 2</Text>
+                      </Box>
+                    </Flex>
                     <Select
                       value={selectedOption}
                       onChange={handleSelectChange}
@@ -428,16 +446,6 @@ export default function Manpage() {
           )}
         </Formik>
       </Box>
-      <Flex ml="20px" w="120px" h="100%" bg="gray.100" direction='column' justifyContent='center' alignItems='center' p='10px'>
-        <Box>
-          <Img src='/samp1.jpg' alt='Theme 1' w="100px"/>
-          <Text textAlign='center'>Theme 1</Text>
-        </Box>
-        <Box mt='20px'>
-        <Img src='/samp2.jpg' w="100px" alt='Theme 2'/>
-        <Text textAlign='center'>Theme 2</Text>
-        </Box>
-      </Flex>
     </Flex>
   );
 }
