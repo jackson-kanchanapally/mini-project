@@ -25,28 +25,7 @@ export default function Login() {
   const router = useRouter();
   const [loginEr,setLoginEr]=React.useState('')
   const [loading,setLoading]=React.useState(false)
-  // const onSubmit = async (val, { resetForm }) => {
-  //   createUserWithEmailAndPassword(auth,
-  //     val.email,
-  //     val.password
-  //     )
-
-  //     .then(()=>{
-      
-  //       setLoading(true)
-  //       router.push('/')
-  //     })
-  //     .catch(err=>{
-  //       if(err&&err.code==='(auth/email-already-in-use)')
-  //       {
-  //         setLoginEr('Email Already Exists')
-  //       }
-  //       else{
-  //         setLoginEr(`Error ${err}`);
-  //         };
-  //     })
-  // };
-
+ 
   const onSubmit = async (val, { resetForm }) => {
     try {
       const {user} = await createUserWithEmailAndPassword(
