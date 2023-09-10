@@ -1,7 +1,7 @@
 "use client";
 //import { Comfortaa  } from 'next/font/google'
 import { Poppins } from "next/font/google";
-import React,{useEffect} from 'react'
+import React, { useEffect } from "react";
 const inter = Poppins({ subsets: ["latin"], weight: "400" });
 import { CacheProvider } from "@chakra-ui/next-js";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
@@ -24,7 +24,6 @@ const theme = extendTheme({
   },
 });
 export default function RootLayout({ children }) {
- 
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -32,10 +31,9 @@ export default function RootLayout({ children }) {
           <ChakraProvider theme={theme}>
             <AuthContextProvider>
               <ResumeContextProvider>
-              <Navbar/>
-           
-             {children}
-          
+                <Navbar />
+
+                {children}
               </ResumeContextProvider>
             </AuthContextProvider>
           </ChakraProvider>

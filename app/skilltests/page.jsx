@@ -29,7 +29,9 @@ export default function RoadmapPage() {
     
       await updateDoc(userDocRef,
         {
-            selcourse:courseName,
+            
+              selcourse:courseName,
+            
         }
         )
       console.log('success update')

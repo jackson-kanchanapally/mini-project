@@ -31,7 +31,7 @@ export default function ResultPage() {
               .then((docSnapshot) => {
                 if (docSnapshot.exists()) {
                   const resultData = docSnapshot.data();
-                  setTestResult(resultData);
+                  setTestResult(resultData?.test);
                 } else {
                   console.log(`No data found for course: ${courseName}`);
                 }
@@ -48,7 +48,7 @@ export default function ResultPage() {
         });
     }
   }, [user]);
-
+  
   return (
     <Flex justifyContent="center" alignItems="center">
       <Flex
@@ -61,12 +61,11 @@ export default function ResultPage() {
       >
       {
         testResult? ( <Flex direction="column" m="auto" mt="70px">
-        <Box w="390px">
-          <Text align={"center"} as="b" fontSize="3xl" mx="20px">
+        <Box w="420px" textAlign='center'>
+          <Text align="center" as="b" fontSize="3xl" mx="20px">
             {testResult?.course}
           </Text>
         </Box>
-
         <Box mx="auto" mb='-15px' h="130px" mt="30px">
           <Text align="center">You scored</Text>
           <Text
@@ -74,8 +73,9 @@ export default function ResultPage() {
             as="b"
             color={testResult?.result < 70 ? "red" : "green"}
             fontSize="7xl"
+            ml='15px'
           >
-            {testResult?.result}
+            {testResult?.result}<span style={{fontSize:'40px'}}>%</span>
           </Text>
         </Box>
         {testResult?.result < 70 ? (

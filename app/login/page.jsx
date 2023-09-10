@@ -37,7 +37,10 @@ export default function Login() {
       ["width", "height", "src", "alt"].includes(prop),
   });
   const {user}=UserAuth()
-
+  if(user)
+  {
+    router.push('/')
+  }
   // const handleSignIn=async()=>{
   //   try{
   //     await googleSignIn()

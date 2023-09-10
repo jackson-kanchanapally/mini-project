@@ -20,8 +20,12 @@ import { ResumeCon } from "@/app/context/ResumeContext";
 import Formi from "@/app/components/Form";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
+import Router from "next/router";
 
 export default function Manpage() {
+  const [loading1, setLoading1] = React.useState(false);
+
+ 
   const [loginEr, setLoginEr] = React.useState("");
   const { user } = UserAuth();
   const [loading, setLoading] = React.useState(false);

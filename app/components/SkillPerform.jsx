@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import {
   Box,
   Button,
@@ -9,9 +9,10 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import {db} from '../firebaseConfig'
+import { db } from "../firebaseConfig";
 import { UserAuth } from "@/app/context/AuthContext";
-import { collection,
+import {
+  collection,
   addDoc,
   getDoc,
   setDoc,
@@ -20,10 +21,11 @@ import { collection,
   onSnapshot,
   deleteDoc,
   updateDoc,
-  doc,} from 'firebase/firestore'
-
+  doc,
+} from "firebase/firestore";
 
 export default function SkillPerform({ cou }) {
+  const [isLoading, setIsLoading] = React.useState(false);
   const data = {
     qu: {
       categories: [
@@ -1051,31 +1053,28 @@ export default function SkillPerform({ cou }) {
       ],
     },
   };
-  const router=useRouter()
-  const {user}=UserAuth()
+  const router = useRouter();
+  const { user } = UserAuth();
   const [result, setResult] = useState(0);
   let currentUser = null;
-  
+
   if (user) {
     currentUser = user.uid;
   }
-  async function saveData(uid,data,courseName){
-  try{
-    const userDocRef = doc(db, "users", uid);
-    const testCollectionRef = collection(userDocRef, "tests"); // Create a subcollection for tests
-    const testDocRef = doc(testCollectionRef, courseName);
-    await setDoc(testDocRef,
-      {
-          course:courseName,
-            result:data
-        
-      }
-      )
-    console.log('success update')
-  }
-  catch(err){
-    console.log(err)
-  }
+  async function saveData(uid, data, courseName) {
+    try {
+      const userDocRef = doc(db, "users", uid);
+      const testCollectionRef = collection(userDocRef, "tests"); // Create a subcollection for tests
+      const testDocRef = doc(testCollectionRef, courseName);
+      await setDoc(testDocRef, {
+        test: {
+          course: courseName,
+          result: data,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
   const [selectedAnswers, setSelectedAnswers] = useState(Array(10).fill(null));
   const handleValueChange = (questionIndex, selectedValue) => {
@@ -1086,8 +1085,8 @@ export default function SkillPerform({ cou }) {
     });
   };
 
-  const handleSubmit =async (e) => {
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const correctAnswers = data.qu.categories
       .find((category) => category.name === cou)
       .questions.map((ques) => ques.answer);
@@ -1098,18 +1097,17 @@ export default function SkillPerform({ cou }) {
       0
     );
 
-   setResult((score / correctAnswers.length) * 100);
-  
-    router.push('/skilltests/result')
+    setResult((score / correctAnswers.length) * 100);
+    setIsLoading(true)
+    router.push("/skilltests/result");
   };
-  React.useEffect(()=>{
-    if(currentUser)
-  {
-    saveData(currentUser,result,cou)
-  }
-  },[result])
+  React.useEffect(() => {
+    if (currentUser) {
+      saveData(currentUser, result, cou);
+    }
+  }, [result]);
   return (
-    <Flex justify="center" align="center" w='100%'>
+    <Flex justify="center" align="center" w="100%">
       <Stack direction="column" w="800px">
         {data.qu.categories.map(
           (category) =>
@@ -1152,15 +1150,16 @@ export default function SkillPerform({ cou }) {
             )
         )}
         <Button
-            bg="#FA643F"
-            _hover={{ bg: "#FF5757" }}variant
+          bg="#FA643F"
+          _hover={{ bg: "#FF5757" }}
+          variant
           mt="20px"
           mb="30px"
           onClick={handleSubmit}
+          isLoading={isLoading}
         >
           Submit
         </Button>
-      
       </Stack>
     </Flex>
   );
