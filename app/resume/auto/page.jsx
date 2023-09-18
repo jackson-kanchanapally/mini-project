@@ -32,7 +32,6 @@ export default function Apage() {
   React.useEffect(() => {
     if (user) {
       const uid = user.uid;
-
       const userDocRef = doc(db, "users", uid);
       const getUserData = async () => {
         try {
@@ -69,12 +68,12 @@ export default function Apage() {
   }, [user]);
   React.useEffect(() => {
     const filteredCourses = games
-    .filter((item) => item.test.result >= 10)
-    .map((item) => item.test.course);
+    .filter((item) => item.test?.result >= 10)
+    .map((item) => item.test?.course);
     
     setFil(filteredCourses);
   }, [games]);
-  const responsibilitiesData = {
+  const resData = {
     "Frontend Developer": {
       Company1: [
         "Developed responsive web apps.",
@@ -345,6 +344,7 @@ export default function Apage() {
               mt="10px"
               value={selectedPosition}
               onChange={handleSelectChange}
+              placeholder="Select the Job Position"
             >
               {fildata.map((position, index) => (
                 <option key={index} value={position}>
@@ -384,9 +384,15 @@ export default function Apage() {
               dd={userData}
               jp={pos}
               ob={objdata[selectedPosition]}
-              com1={responsibilitiesData[pos]["Company1"]}
-              com2={responsibilitiesData[pos]["Company2"]}
-              com3={responsibilitiesData[pos]["Company3"]}
+              com1={
+              resData[pos]["Company1"]||""
+              }
+              com2={
+              resData[pos]["Company2"]||""
+              }
+              com3={
+              resData[pos]["Company3"]||""
+             }
             />
           ) : r === "t2" ? (
             <T2
@@ -394,9 +400,9 @@ export default function Apage() {
               dd={userData}
               jp={pos}
               ob={objdata[selectedPosition]}
-              com1={responsibilitiesData[pos]["Company1"]}
-              com2={responsibilitiesData[pos]["Company2"]}
-              com3={responsibilitiesData[pos]["Company3"]}
+              com1={resData[pos]["Company1"]||""}
+              com2={resData[pos]["Company2"]||""}
+              com3={resData[pos]["Company3"]||""}
             />
           ) : null}
         </>

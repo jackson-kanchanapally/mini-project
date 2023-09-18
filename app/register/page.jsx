@@ -48,6 +48,12 @@ export default function Login() {
         contact: val.mobnum,
         address: val.address,
         email: val.email,
+        comname:val.comname,
+        comname2:val.comname2,
+        comname3:val.comname3,
+        school:val.school,
+        school12:val.school12,
+        grad:val.grad
       });
       setLoading(true);
       router.push("/");
@@ -100,7 +106,10 @@ export default function Login() {
             lastname: "",
             school:"",
             school12:"",
-            grad:""
+            grad:"",
+            comname:"",
+            comname2:"",
+            comname3:"",
           }}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
@@ -178,8 +187,8 @@ export default function Login() {
                 <HStack>
                 <Formi
                   label="Company Name"
-                  id="comname1"
-                  name="comname1"
+                  id="comname"
+                  name="comname"
                   type="text"
                   variant="filled"
                 />

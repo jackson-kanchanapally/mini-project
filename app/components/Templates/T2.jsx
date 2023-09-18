@@ -20,7 +20,7 @@ import { UserAuth } from "@/app/context/AuthContext";
 import { db, st } from "@/app/firebaseConfig";
 import { EmailIcon } from "@chakra-ui/icons";
 import { TriangleUpIcon } from "@chakra-ui/icons";
-import { MdFileDownload } from "react-icons/md";
+import { MdFileDownload,MdFileUpload } from "react-icons/md";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Link from "next/link";
@@ -41,6 +41,9 @@ export default function T2(
   const pdfRef = React.useRef();
     const [isLoading,setIsLoading]=React.useState(false)
   const [userData, setUserData] = useState(null);
+  const [isLoading2,setIsLoading2]=React.useState(false)
+  const [pdU,setPdu]=React.useState('')
+  const [fn,setfn]=React.useState('')
   const pathname = usePathname();
   const uploadPDF = async (pdfData, filename, userUID) => {
     const storageRef = ref(st, `resumes/${userUID}/${filename}T2`);
@@ -73,12 +76,24 @@ export default function T2(
         imgHeight * ratio
       );
       const pdfData = pdf.output("blob");
+      setPdu(pdfData)
       const filename = `${userData.firstname}${userData.lastname}.pdf`;
-      if (user) {
-        await uploadPDF(pdfData, filename, user.uid);
-      }
+      setfn(filename)
       pdf.save(filename);
+      setIsLoading(false)
     });
+  };
+  const UpP = async () => {
+    try {
+      if (user) {
+        await uploadPDF(pdU, fn, user.uid);
+        setIsLoading2(false) 
+      } else {
+        console.log('User is not defined'); 
+      }
+    } catch (error) {
+      console.error('Error uploading PDF:', error); 
+    }
   };
   const Img = chakra(Image, {
     shouldForwardProp: (prop) =>
@@ -104,7 +119,7 @@ export default function T2(
       fetchUserData(user.uid);
     }
   }, [user]);
-  return pathname==='/resume/manual'?(
+  return pathname==='/re2'?(
     <div className={inter.className}>
       <Flex justifyContent="center" direction="column" alignItems="center">
         {pathname == "/resume/manual" ? (
@@ -260,10 +275,25 @@ export default function T2(
             </Box>
           </Box>
         </Box>
+        <Center>
+        <Button mr='10px' bg="#FA643F" mt="60px" onClick={()=>{
+          setIsLoading2(true)
+          UpP()
+          }}
+          isLoading={isLoading2}
+          >
+          <MdFileUpload /> Upload to Database
+        </Button>
 
-        <Button bg="#FA643F" mt="60px" onClick={downloadPDF}>
+       <Button bg="#FA643F" mt="60px" onClick={()=>{
+          setIsLoading(true)
+          downloadPDF()
+          }}
+          isLoading={isLoading}
+          >
           <MdFileDownload /> Download
         </Button>
+       </Center>
       </Flex>
     </div>
   ):(
@@ -423,9 +453,18 @@ export default function T2(
         </Box>
 
         <Center>
+        <Button mr='10px' bg="#FA643F" mt="60px" onClick={()=>{
+          setIsLoading2(true)
+          UpP()
+          }}
+          isLoading={isLoading2}
+          >
+          <MdFileUpload /> Upload to Database
+        </Button>
+
        <Button bg="#FA643F" mt="60px" onClick={()=>{
           setIsLoading(true)
-          downloadPDF
+          downloadPDF()
           }}
           isLoading={isLoading}
           >

@@ -19,7 +19,7 @@ const inter = Raleway({ subsets: ["latin"], weight: "400" });
 import { UserAuth } from "@/app/context/AuthContext";
 import { db, st } from "@/app/firebaseConfig";
 import { EmailIcon } from "@chakra-ui/icons";
-import { MdFileDownload } from "react-icons/md";
+import { MdFileDownload,MdFileUpload } from "react-icons/md";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Link from "next/link";
@@ -38,6 +38,9 @@ export default function T1({
   const { user } = UserAuth();
   const pathname = usePathname();
   const [isLoading,setIsLoading]=React.useState(false)
+  const [isLoading2,setIsLoading2]=React.useState(false)
+  const [pdU,setPdu]=React.useState('')
+  const [fn,setfn]=React.useState('')
   let currentUser = null;
 
   if (user) {
@@ -77,13 +80,26 @@ export default function T1({
         imgHeight * ratio
       );
       const pdfData = pdf.output("blob");
+      setPdu(pdfData)
       const filename = `${userData.firstname}${userData.lastname}.pdf`;
-      if (user) {
-        await uploadPDF(pdfData, filename, user.uid);
-      }
+      setfn(filename)
       pdf.save(filename);
+      setIsLoading(false)
     });
   };
+  const UpP = async () => {
+    try {
+      if (user) {
+        await uploadPDF(pdU, fn, user.uid);
+        setIsLoading2(false) // You can add a success message or perform other actions here.
+      } else {
+        console.log('User is not defined'); // Handle the case when 'user' is not defined.
+      }
+    } catch (error) {
+      console.error('Error uploading PDF:', error); // Handle any errors that occur during the upload.
+    }
+  };
+  
   const Img = chakra(Image, {
     shouldForwardProp: (prop) =>
       ["width", "height", "src", "alt"].includes(prop),
@@ -106,7 +122,7 @@ export default function T1({
       fetchUserData(currentUser);
     }
   }, [user]);
-  return pathname == "/resume/manual" ? (
+  return pathname == "/re1" ? (
     <div className={inter.className}>
       <Flex justifyContent="center" direction="column" alignItems="center">
         {pathname == "/resume/manual" ? (
@@ -261,14 +277,25 @@ export default function T1({
           </Box>
         </Box>
 
-        <Button bg="#FA643F" mt="60px" onClick={()=>{
+        <Center>
+        <Button mr='10px' bg="#FA643F" mt="60px" onClick={()=>{
+          setIsLoading2(true)
+          UpP()
+          }}
+          isLoading={isLoading2}
+          >
+          <MdFileUpload /> Upload to Database
+        </Button>
+
+       <Button bg="#FA643F" mt="60px" onClick={()=>{
           setIsLoading(true)
-          downloadPDF
+          downloadPDF()
           }}
           isLoading={isLoading}
           >
           <MdFileDownload /> Download
         </Button>
+       </Center>
       </Flex>
     </div>
   ) : (
@@ -430,9 +457,18 @@ export default function T1({
         </Box>
          
        <Center>
+       <Button mr='10px' bg="#FA643F" mt="60px" onClick={()=>{
+          setIsLoading2(true)
+          UpP()
+          }}
+          isLoading={isLoading2}
+          >
+          <MdFileUpload /> Upload to Database
+        </Button>
+
        <Button bg="#FA643F" mt="60px" onClick={()=>{
           setIsLoading(true)
-          downloadPDF
+          downloadPDF()
           }}
           isLoading={isLoading}
           >
