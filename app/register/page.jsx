@@ -33,8 +33,6 @@ export default function Login() {
         val.email,
         val.password
       );
-
-      // const user = userCredential.user;
       await updateProfile(user, {
         displayName: val.firstname + " " + val.lastname,
         phoneNumber: val.mobnum,

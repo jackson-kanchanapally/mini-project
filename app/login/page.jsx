@@ -2,22 +2,17 @@
 import { Box, Button, Flex, Text, VStack, chakra, Image,Spinner} from "@chakra-ui/react";
 import { Formik, Field,Form } from "formik";
 import React,{useState} from 'react'
-// import Formi from "../../components/Form";
 import Link from "next/link";
 import { UserAuth } from "../context/AuthContext";
 import { useRouter } from 'next/navigation'
 import {auth} from '../firebaseConfig'
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Formi from "@/app/components/Form";
-// import Image from 'next/image'
 export default function Login() {
   const [loginEr,setLoginEr]=useState('')
   const [loading, setLoading] = useState(false); 
   const router = useRouter();
 
-  // React.useEffect(() => {
-  //   setLoading(false); 
-  // }, []);
 
   const onSubmit=async(val,{resetForm})=>{
       signInWithEmailAndPassword(auth,val.email,val.password)
@@ -41,23 +36,7 @@ export default function Login() {
   {
     router.push('/')
   }
-  // const handleSignIn=async()=>{
-  //   try{
-  //     await googleSignIn()
 
-  //   }catch(err){
-  //     console.log(err)
-  //   }
-  // }
-
-  // const handleSignOut=async()=>{
-  //   try{
-  //     await logOut()
-  //   }
-  //   catch(err){
-  //     console.log(err)
-  //   }
-  // }
 
   return (
     <Flex align="center" justify="center" h="90vh">
@@ -68,8 +47,7 @@ export default function Login() {
           email: "",
           password: "",
         }}
-      
-        //  validationSchema={vaildateSchema}
+
         onSubmit={onSubmit}
       >
         
@@ -96,7 +74,6 @@ export default function Login() {
                 Login
               </Button>
               <Link href='/register'><Text fontSize='13px' >Create Account ? SignUp</Text></Link>
-              {/* <Button onClick={handleSignIn}>Login with Google</Button> */}
               {loginEr===''?'':<Text m='auto' color='red' fontSize='15px'>&#9888; {loginEr}</Text>}
             </VStack>
           </Form>
