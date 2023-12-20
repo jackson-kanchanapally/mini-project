@@ -12,6 +12,44 @@ import {
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import axios from "axios";
+const d=[
+  {
+    "url": "https://www.codechef.com/START114",
+    "name": "START114",
+    "site": "code chef",
+    "start_time": "Dec 27 2023, 06:40 pm",
+    "duration": "2 hrs"
+  },
+  {
+    "url": "https://www.codechef.com/START113",
+    "name": "START113",
+    "site": "code chef",
+    "start_time": "Dec 23 2023, 07:00 am",
+    "duration": "2 hrs 30 min"
+  },
+  {
+    "url": "https://www.hackerearth.com/challenges/new/competitive/december-circuits-23/",
+    "name": "December Circuits '23",
+    "site": "hacker earth",
+    "start_time": "Dec 15 2023, 09:30 pm",
+    "duration": "7 days"
+  },
+  {
+    "url": "https://leetcode.com/contest/biweekly-contest-120/",
+    "name": "Biweekly Contest 120",
+    "site": "Leet Code",
+    "start_time": "Dec 23 2023, 08:00 pm",
+    "duration": "2 days"
+  },
+  {
+    "url": "https://leetcode.com/contest/biweekly-contest-377/",
+    "name": "Biweekly Contest 377",
+    "site": "Leet Code",
+    "start_time": "Dec 23 2023, 08:00 pm",
+    "duration": "2 days"
+  }
+]
+
 const CodingContest = () => {
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
@@ -21,8 +59,10 @@ const CodingContest = () => {
         const res = await axios.get("https://kontests.net/api/v1/all");
         setData(res.data);
         setLoading(false);
-      } catch (e) {
+      } catch (err) {
         console.log(err);
+        setData(d);
+        setLoading(false);
       }
     };
     fetchData();
@@ -82,20 +122,21 @@ const CodingContest = () => {
                   )}
                   </Text>
                 </HStack>
-                <HStack fontWeight="medium">
+                {/* <HStack fontWeight="medium">
                   {" "}
                  <Text fontWeight='bold'> Ends On :{" "}</Text>
                  <Text> {new Date(contest?.end_time).toLocaleString(
                     "en-IN",
                     indianOptions)}</Text>
                   
-                </HStack>
+                </HStack> */}
                 <HStack>
                   <Text fontWeight='bold'>
                   Duration : 
                   </Text>
                   <Text>
-                   {convertDuration(parseFloat(contest.duration))}
+                   {/* {convertDuration(parseFloat(contest.duration))} */}
+                   {contest.duration}
                   </Text>
                 </HStack>
               </Box>
